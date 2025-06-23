@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->longText('prompt');
+            $table->foreignId('evaluator_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

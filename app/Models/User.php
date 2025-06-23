@@ -67,4 +67,9 @@ class User extends Authenticatable
         return $this->hasOne(DigitalTwin::class);
     }
 
+    public function fullName(): string
+    {
+        return $this->name . ' ' . $this->surname;
+    }
+
 }

@@ -16,7 +16,9 @@ class DigitalTwin extends Model
     ];
 
     /**
-     * Get the user that owns this digital twin.
+     * Define a one-to-one relationship with User model representing the real user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user(): BelongsTo
     {
