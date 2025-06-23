@@ -21,17 +21,29 @@ else
 fi
 
 # Check if migrations and seeding have already been done
-echo "Checking if migrations and seeding are needed..."
+set +e
+php -r "
+require 'vendor/autoload.php';
+require 'bootstrap/app.php';
 
-php artisan tinker --execute="exit(App\Models\User::count() > 0 ? 0 : 1)"
-if [ $? -eq 1 ]; then
-  echo "Starting Laravel migration and seeding process..."
+use Illuminate\Support\Facades\Schema;
+
+app()->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+
+exit(Schema::hasTable('users') ? 0 : 1);
+"
+retval=$?
+
+if [ "$retval" -eq 1 ]; then
+  echo 'Starting Laravel migration and seeding process...'
   php artisan migrate --force
   php artisan db:seed --force
-  echo "Migration and seeding completed successfully."
+  echo 'Migration and seeding completed successfully.'
 else
-  echo "Migrations and seeding already done, skipping."
+  echo 'Migrations and seeding already done, skipping.'
 fi
+
+set -e
 
 # Generate the application key
 php artisan key:generate
