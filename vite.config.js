@@ -12,8 +12,12 @@ export default defineConfig({
         }),
     ],
   server: {
-    hmr: {
-      host: 'localhost'
-    }
+    host: '0.0.0.0',
+    port: 5173,
+    watch: {
+      usePolling: true,
+    },
+    strictPort: true,
+    origin: 'http://localhost:5173',
   }
 });

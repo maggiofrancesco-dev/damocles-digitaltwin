@@ -1,4 +1,6 @@
 #!/bin/bash
+git config --global --add safe.directory /app
+
 
 set -o errexit
 set -o nounset
@@ -47,4 +49,7 @@ php artisan queue:work &
 php artisan schedule:work &
 
 # Start the Laravel server
-php artisan serve --host=0.0.0.0 --port=8000
+php artisan serve --host=0.0.0.0 --port=8000 &
+
+# Start the vite server
+npm run dev

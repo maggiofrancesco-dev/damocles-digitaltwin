@@ -31,6 +31,8 @@ services:
             - MYSQL_PASSWORD=${DB_PASSWORD}
     g4f:
         container_name: g4f
+        ports:
+            - 8080:8080
         image: hlohaus789/g4f:latest
 
 volumes:
