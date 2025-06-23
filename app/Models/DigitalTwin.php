@@ -13,6 +13,12 @@ class DigitalTwin extends Model
     protected $fillable = [
         'user_id',
         'prompt',
+        'evaluator_id',
+        'human_factors'
+    ];
+
+    protected $casts = [
+        'human_factors' => 'array',
     ];
 
     /**
