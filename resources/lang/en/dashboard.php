@@ -12,6 +12,7 @@ return [
     'phishingCampaignOption' => 'Phishing campaign option',
     'availableQuestionnaires' => 'Available questionnaires',
     'questionnaireCampaign' => 'Questionnaire campaign',
+    'digitalTwins' => 'Digital Twins',
     'profile' => 'Profile',
     'logout' => 'Log Out',
     'admin' => [
@@ -25,6 +26,7 @@ return [
         'phishingCampaign' => 'Phishing Campaigns',
         'questionnairesCampaign' => 'Questionnaires Campaigns',
         'questionnaires' => 'Questionnaires',
+        'digitalTwins' => 'Digital Twins',
     ],
     'charts' => [
         'totalCampaigns' => 'Total campaigns',

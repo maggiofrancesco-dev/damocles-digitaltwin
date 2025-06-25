@@ -5,6 +5,8 @@ use App\Http\Controllers\DAMOCLESController;
 use App\Http\Controllers\LLMController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DigitalTwinController;
+use App\Http\Controllers\FakeUserController;
 use App\Http\Controllers\QuestionnaireCampaignController;
 use App\Http\Controllers\PhishingCampaignController;
 use App\Http\Controllers\PhishingContextController;
@@ -97,6 +99,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::post('/phishing-campaign/emotional-trigger', [PhishingEmotionalTriggerController::class, 'create'])->name('emotional-trigger.create');
         Route::delete('/phishing-campaign/emotional-trigger/{emotionalTrigger}', [PhishingEmotionalTriggerController::class, 'destroy'])->name('emotional-trigger.destroy');
+
+        // Digital twins
+        Route::get('/digital-twin', [DigitalTwinController::class, 'index'])->name('digital-twin.index');
+
+        Route::get('/digital-twin/new', [DigitalTwinController::class, 'new'])->name('digital-twin.new');
+        Route::post('/phishing-campaign/create', [DigitalTwinController::class, 'create'])->name('digital-twin.create');
+
+        Route::get('/digital-twin/detail/{digitalTwin}', [DigitalTwinController::class, 'details'])->name('digital-twin.details');
+        Route::get('/digital-twin/duplicate/{digitalTwin}', [DigitalTwinController::class, 'duplicate'])->name('digital-twin.duplicate');
+        Route::delete('/digital-twin/delete/{digitalTwin}', [DigitalTwinController::class, 'destroy'])->name('digital-twin.destroy');
+
+        Route::get('/digital-twin/fake-users', [DigitalTwinController::class, 'fakeUsers'])->name('digital-twin.fake-users');
+        Route::post('/digital-twin/fake-users', [DigitalTwinController::class, 'redirectFakeUsers'])->name('digital-twin.redirect-fake-users');
+
+        // Fake users
+        Route::delete('/fake-user/delete/{fakeUserId}', [FakeUserController::class, 'destroy'])->name('fake-user.destroy');
+
     });
 
     Route::middleware(['role:Admin,Evaluator'])->group(function () {

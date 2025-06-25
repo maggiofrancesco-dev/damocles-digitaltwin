@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use App\Jobs\SendPhishingEmail;
-
+use App\Services\JsonExtractor;
 use Carbon\Carbon;
 use Faker\Factory as Faker;
 use GuzzleHttp\Client;
@@ -481,33 +481,6 @@ class PhishingCampaignController extends Controller
         return view('phishing-campaign.phishing-campaign-option', compact('contexts', 'emotionalTriggers', 'persuasions'));
     }
 
-    private function extractJSON(string $body): array
-    {
-        // Step 1: Use regex to extract the JSON block
-        if (preg_match('/\{[\s\S]*\}/', $body, $matches)) {
-            $jsonString = $matches[0];
-
-            // Step 2: Decode the JSON string
-            $data = json_decode($jsonString, true);
-
-            // Step 3: Check for errors and required keys
-            if (json_last_error() === JSON_ERROR_NONE) {
-                if (isset($data['subject'], $data['body'])) {
-                    return [
-                        'subject' => $data['subject'],
-                        'body' => $data['body'],
-                    ];
-                } else {
-                    throw new \InvalidArgumentException('JSON does not contain required "subject" and "body" keys.');
-                }
-            } else {
-                throw new \InvalidArgumentException('Invalid JSON: ' . json_last_error_msg());
-            }
-        } else {
-            throw new \InvalidArgumentException('No JSON block found in input text.');
-        }
-    }
-
     private function generateEmails($numberEmails, $llm, $prompt)
     {
         $subjects = [];
@@ -518,7 +491,7 @@ class PhishingCampaignController extends Controller
             try {
                 $tempContent = $this->generateHTTPPost($llm, $prompt);
 
-                $decodedContent = $this->extractJSON($tempContent);
+                $decodedContent = JsonExtractor::extract($tempContent);
                 if (isset($decodedContent['subject']) && isset($decodedContent['body'])) {
                     $subjects[] = $decodedContent['subject'];
                     $bodies[] = $decodedContent['body'];

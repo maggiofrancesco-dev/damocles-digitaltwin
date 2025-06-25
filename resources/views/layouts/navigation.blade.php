@@ -106,6 +106,12 @@
                             </x-slot>
                         </x-dropdown>
                     </div>
+
+                    <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex">
+                        <x-nav-link :href="route('digital-twin.index')" :active="request()->routeIs('digital-twin')">
+                            @lang('dashboard.digitalTwins')
+                        </x-nav-link>
+                    </div>
                 @endif
 
                 @if (Auth::check() && Auth::user()->role == 'User')

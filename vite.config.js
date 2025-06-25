@@ -16,6 +16,8 @@ export default defineConfig({
     port: 5173,
     watch: {
       usePolling: true,
+      interval: 100,
+      ignored: ['**/node_modules/**']
     },
     strictPort: true,
     origin: 'http://localhost:5173',
