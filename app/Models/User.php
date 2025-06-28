@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -61,15 +63,22 @@ class User extends Authenticatable
         return $this->role === 'Admin';
     }
 
-
-    public function digitalTwin(): HasOne
-    {
-        return $this->hasOne(DigitalTwin::class);
-    }
-
     public function fullName(): string
     {
         return $this->name . ' ' . $this->surname;
     }
+    
+    public function age(): int
+    {
+        return Carbon::parse($this->dob)->age;
+    }
+
+    // Mocks
+
+    public array $human_factors = [
+        'Stress' => 3,
+        'Risk Attitude' => 2,
+        'Impulsivity' => 4
+    ];
 
 }

@@ -104,7 +104,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/digital-twin', [DigitalTwinController::class, 'index'])->name('digital-twin.index');
 
         Route::get('/digital-twin/new', [DigitalTwinController::class, 'new'])->name('digital-twin.new');
-        Route::post('/phishing-campaign/create', [DigitalTwinController::class, 'create'])->name('digital-twin.create');
+        Route::post('/digital-twin/create', [DigitalTwinController::class, 'create'])->name('digital-twin.create');
 
         Route::get('/digital-twin/detail/{digitalTwin}', [DigitalTwinController::class, 'details'])->name('digital-twin.details');
         Route::get('/digital-twin/duplicate/{digitalTwin}', [DigitalTwinController::class, 'duplicate'])->name('digital-twin.duplicate');
@@ -112,6 +112,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('/digital-twin/fake-users', [DigitalTwinController::class, 'fakeUsers'])->name('digital-twin.fake-users');
         Route::post('/digital-twin/fake-users', [DigitalTwinController::class, 'redirectFakeUsers'])->name('digital-twin.redirect-fake-users');
+
+        Route::get('/digital-twin/select-users', [DigitalTwinController::class, 'selectUsers'])->name('digital-twin.select-users');
+
 
         // Fake users
         Route::delete('/fake-user/delete/{fakeUserId}', [FakeUserController::class, 'destroy'])->name('fake-user.destroy');

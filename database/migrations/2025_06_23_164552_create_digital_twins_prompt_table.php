@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('digital_twins_prompt', function (Blueprint $table) {
             $table->id();
-            $table->json('human_factors')->nullable();
-            $table->foreignId('evaluator_id')->constrained('users')->onDelete('cascade');
             $table->text('title');
             $table->longtext('value');
             $table->timestamps();

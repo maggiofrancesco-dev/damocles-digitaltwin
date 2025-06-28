@@ -25,6 +25,69 @@
 
                     <p class="font-semibold text-xl">@lang('digital-twin.newDigitalTwin.new')</p>
                     <p class="font-semibold text-sm">@lang('digital-twin.newDigitalTwin.mandatoryField')</p>
+                    <div class="flex w-full">
+                        <div class="w-1/2">
+                            <p class="text-lg font-medium text-sky-900">
+                                *@lang('digital-twin.newDigitalTwin.name'):
+                            </p>
+                            <x-input-label for="name" class="text-md block font-medium text-sky-700 pb-2"
+                                :value="__('digital-twin.newDigitalTwin.value.name')" />
+                            <input type="text" id="name" name="name"
+                                class="border border-sky-700 focus:border-sky-800 focus:ring-sky-800 rounded-md w-full sm:w-2/3"
+                                required>
+                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                        </div>
+                        <div class="w-1/2">
+                            <p class="text-lg font-medium text-sky-900">
+                                *@lang('digital-twin.newDigitalTwin.surname'):
+                            </p>
+                            <x-input-label for="surname" class="text-md block font-medium text-sky-700 pb-2"
+                                :value="__('digital-twin.newDigitalTwin.value.surname')" />
+                            <input type="text" id="surname" name="surname"
+                                class="border border-sky-700 focus:border-sky-800 focus:ring-sky-800 rounded-md w-full sm:w-2/3"
+                                required>
+                            <x-input-error :messages="$errors->get('surname')" class="mt-2" />
+                        </div>
+                    </div>
+                    <div class="flex w-full">
+                        <div class="w-1/2">
+                            <p class="text-lg font-medium text-sky-900">
+                                *@lang('digital-twin.newDigitalTwin.dateOfBirth'):
+                            </p>
+                            <x-input-label for="dateOfBirth" class="text-md block font-medium text-sky-700 pb-2"
+                                :value="__('digital-twin.newDigitalTwin.value.dateOfBirth')" />
+                            <input type="date" id="dateOfBirth" name="dateOfBirth"
+                                class="border border-sky-700 focus:border-sky-800 focus:ring-sky-800 rounded-md cursor-pointer"
+                                required>
+                            <x-input-error :messages="$errors->get('dateOfBirth')" class="mt-2" />
+                        </div>
+                        <div class="w-1/2">
+                            <p class="text-lg font-medium text-sky-900">
+                                *@lang('digital-twin.newDigitalTwin.gender'):
+                            </p>
+                            <x-input-label for="gender" class="text-md block font-medium text-sky-700 pb-2"
+                                :value="__('digital-twin.newDigitalTwin.value.gender')" />
+                            <select id="gender" name="gender"
+                                class="mt-1 block border-sky-800 focus:border-sky-900 focus:ring-sky-800 rounded-md shadow-sm w-full"
+                                required autofocus autocomplete="gender">
+                                <option value="Male">@lang('auth.register.male')</option>
+                                <option value="Female">@lang('auth.register.female')</option>
+                                <option value="Other">@lang('auth.register.other')</option>
+                            </select>
+                            <x-input-error :messages="$errors->get('gender')" class="mt-2" />
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-lg font-medium text-sky-900">
+                            *@lang('digital-twin.newDigitalTwin.company_role'):
+                        </p>
+                        <x-input-label for="companyRole" class="text-md block font-medium text-sky-700 pb-2"
+                            :value="__('digital-twin.newDigitalTwin.value.company_role')" />
+                        <input type="text" id="companyRole" name="companyRole"
+                            class="border border-sky-700 focus:border-sky-800 focus:ring-sky-800 rounded-md w-full sm:w-2/3"
+                            required>
+                        <x-input-error :messages="$errors->get('company_role')" class="mt-2" />
+                    </div>
                     <div>
                         <p class="text-lg font-medium text-sky-900">
                             *@lang('digital-twin.newDigitalTwin.prompt'):
@@ -42,6 +105,7 @@
 
                             <textarea name="prompt" id="prompt" placeholder="" rows="15"
                                 class="border border-sky-700 focus:border-sky-800 focus:ring-sky-800 rounded-md w-full"></textarea>
+                            <x-input-error :messages="$errors->get('prompt')" class="mt-2" />
                         </div>
                     </div>
                     <div class="flex flex-row justify-around items-center pt-6">
@@ -50,8 +114,6 @@
                         <!-- Circles which indicates the steps of the creation -->
                         <div class="flex flex-row w-1/3 justify-center items-center">
                             <span class="status active"></span>
-                            <span class="status"></span>
-                            <span class="status"></span>
                             <span class="status"></span>
                             <span class="status"></span>
                         </div>

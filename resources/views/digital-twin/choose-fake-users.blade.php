@@ -158,7 +158,7 @@
                             </div>
                             <div class="flex flex-row justify-center items-center w-1/3 gap-4">
                                 <span id="pageIndicator" class="text-gray-700"></span>
-                                <span id="totalCampaigns" class="text-gray-500 text-sm"></span>
+                                <span id="totalUsers" class="text-gray-500 text-sm"></span>
                                 <select id="rowsPerPage" class="border border-gray-300 rounded-md shadow-sm">
                                     <option value="5" selected>5</option>
                                     <option value="10">10</option>
@@ -180,11 +180,11 @@
                             <span class="status"></span>
                             <span class="status active"></span>
                             <span class="status"></span>
-                            <span class="status"></span>
-                            <span class="status"></span>
                         </div>
-                        <x-primary-button class="ml-auto" id="continueDigitalTwin"
-                            type="submit">@lang('digital-twin.continue')</x-primary-button>
+                        <a href="{{ route('digital-twin.select-users') }}">
+                            <x-primary-button class="ml-auto" id="continueDigitalTwin"
+                                type="button">@lang('digital-twin.continue')</x-primary-button>
+                        </a>
                     </div>
                 </form>
 
@@ -228,7 +228,7 @@
         if (document.getElementById('pagination-controls')) {
             const rowsPerPageSelect = document.getElementById('rowsPerPage');
             const pageIndicator = document.getElementById('pageIndicator');
-            const totalCampaigns = document.getElementById('totalCampaigns');
+            const totalUsers = document.getElementById('totalUsers');
 
             let rowsPerPage = parseInt(rowsPerPageSelect.value);
             let currentPage = 1;
@@ -248,7 +248,7 @@
                 }
                 totalPages = Math.ceil(totalRows / rowsPerPage);
                 pageIndicator.innerText = `${currentPage} / ${totalPages}`;
-                totalCampaigns.innerText = `Total campaigns: ${totalRows}`;
+                totalUsers.innerText = `Total campaigns: ${totalRows}`;
                 document.getElementById('prevPage').classList.toggle('hidden', currentPage === 1);
                 document.getElementById('nextPage').classList.toggle('hidden', currentPage === totalPages);
             }

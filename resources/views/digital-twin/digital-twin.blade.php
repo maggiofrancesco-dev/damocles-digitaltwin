@@ -59,8 +59,9 @@
                                     <tr class="border-b-2 border-gray-300">
                                         <th class="py-2 px-4">@lang('digital-twin.name')</th>
                                         <th class="py-2 px-4">@lang('digital-twin.prompt')</th>
+                                        <th class="py-2 px-4">@lang('digital-twin.companyRole')</th>
+                                        <th class="py-2 px-4">@lang('digital-twin.age')</th>
                                         <th class="py-2 px-4">@lang('digital-twin.humanFactors')</th>
-                                        <th class="py-2 px-4">@lang('digital-twin.updatedAt')</th>
                                         <th class="py-2 px-4"></th>
                                     </tr>
                                 </thead>
@@ -68,15 +69,38 @@
                                     @foreach ($digitalTwins as $digitalTwin)
                                         <tr class="hover:bg-gray-100 border-b border-gray-200 cursor-pointer"
                                             {{-- onclick="handleRowClick(event, '{{ $digitalTwin->state == 'Draft' || $digitalTwin->state == 'Ready' ? route('digital-twin.details', ['phishingCampaign' => $digitalTwin->id]) : route('digital-twin.analyse', ['phishingCampaign' => $digitalTwin->id]) }}')" --}}>
-                                            <td class="w-1/3 py-2 px-4">{{ $digitalTwin->user->fullName() }}</td>
-                                            <td class="w-1/3 py-2 px-4">{{ $digitalTwin->prompt }}</td>
+                                            <td class="w-1/3 py-2 px-4">{{ $digitalTwin->fullName() }}</td>
+                                            <td class="w-1/3 py-2 px-4"><span
+                                                    class="line-clamp-3 w-full">{{ $digitalTwin->prompt }}</span></td>
                                             <td class="w-1/3 py-2 px-4">
-                                                @foreach ($digitalTwin->human_factors as $humanFactor)
-                                                    <x-chip>{{ $humanFactor }}</x-chip>
-                                                @endforeach
+                                                {{ $digitalTwin->company_role }}</td>
+                                            <td class="w-1/3 py-2 px-4">
+                                                {{ $digitalTwin->age() }}</td>
+                                            <td class="w-1/3 py-2 px-4">
+                                                <div class="flex gap-1 items-center justify-center">
+                                                    @foreach (array_keys(array_slice($digitalTwin->human_factors, 0, 1)) as $factor)
+                                                        <x-chip>{{ $factor }}</x-chip>
+                                                    @endforeach
+
+                                                    @if (count($digitalTwin->human_factors) > 2)
+                                                        <div x-data="{ open: false }" class="relative">
+                                                            <button type="button"
+                                                                onclick="event.preventDefault(); event.stopPropagation();"
+                                                                @click="open = !open"
+                                                                class="bg-sky-300 text-white text-xs px-2 py-1 rounded-full">+{{ count($digitalTwin->human_factors) - 2 }}</button>
+
+                                                            <div x-show="open" @click.outside="open = false"
+                                                                class="absolute z-10 mt-1 bg-white border shadow-lg rounded p-2 text-sm">
+                                                                @foreach (array_keys(array_slice($digitalTwin->human_factors, 2)) as $factor)
+                                                                    <x-chip class="my-1 bg-sky-300">
+                                                                        {{ strtoupper($factor) }}</x-chip>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
                                             </td>
-                                            <td class="w-1/3 py-2 px-4">
-                                                {{ $digitalTwin->updated_at->format('d/m/Y') }}</td>
+
                                             <td class="flex flex-row justify-end py-2 px-4">
                                                 <x-dropdown align="right" width="48">
                                                     <x-slot name="trigger">
@@ -106,7 +130,8 @@
                                                                 </button>
                                                             </a>
                                                             <button class="hover:bg-gray-100 inner-element"
-                                                                data-id="{{ $digitalTwin->id }}" x-data=""
+                                                                data-id="{{ $digitalTwin->id }}"
+                                                                x-data=""
                                                                 @click="$dispatch('open-modal', 'duplicate-modal', { id: {{ $digitalTwin->id }} })">@lang('digital-twin.duplicate')</button>
 
                                                             <button class="hover:bg-gray-100 text-red-500 inner-element"

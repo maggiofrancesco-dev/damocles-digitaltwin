@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\HumanFactorHelper;
 use App\Models\DigitalTwin;
 use App\Models\DigitalTwinsPrompt;
 use App\Models\FakeUser;
 use App\Models\LLM;
+use App\Models\User;
 use App\Services\JsonExtractor;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -22,7 +25,7 @@ class DigitalTwinController extends Controller
             $digitalTwins = DigitalTwin::where('evaluator_id', $user->id)->get();
         }
 
-        session()->forget('prompt');
+        session()->forget('digital_twin_draft');
 
         return view('digital-twin.digital-twin', compact('digitalTwins'));
     }
@@ -39,9 +42,32 @@ class DigitalTwinController extends Controller
 
     public function redirectFakeUsers(Request $request)
     {
-        $prompt = $request['prompt'];
+        $eighteenYearsAgo = Carbon::now()->subYears(18)->toDateString();
 
-        session(['prompt' => $prompt]); // not flash, so persists beyond next request
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'dateOfBirth' => ['required', 'date', 'before_or_equal:' . $eighteenYearsAgo],
+            'gender' => ['required', 'string', 'in:Male,Female,Other'],
+            'companyRole' => ['required', 'string', 'max:255'],
+            'prompt' => ['required', 'string'],
+        ], [
+            'dateOfBirth.before_or_equal' => 'User must be at least 18 years old.',
+        ]);
+
+        $age = Carbon::parse($validated['dateOfBirth'])->age;
+
+        $user = [
+            'name' => $validated['name'],
+            'surname' => $validated['surname'],
+            'age' => $age,
+            'role' => $validated['companyRole'],
+            'gender' => $validated['gender']
+        ];
+
+        $validated['prompt'] = $this->generateDigitalTwinPrompt($validated['prompt'], $user, []);
+
+        session(['digital_twin_draft' => $validated]); // not flash, so persists beyond next request
 
         return redirect()->route('digital-twin.fake-users');
     }
@@ -57,15 +83,12 @@ class DigitalTwinController extends Controller
         }
         $fakeUsers = FakeUser::where('evaluator_id', 1)->get();
 
-        $llms = LLM::all();
-
-        $prompt = session('prompt');
+        $prompt = session('digital_twin_draft')['prompt'];
 
 
         return view('digital-twin.choose-fake-users')->with([
             'fakeUsers' => $fakeUsers,
             'prompt' => $prompt,
-            'llms' => $llms
         ]);
     }
 
@@ -99,6 +122,22 @@ class DigitalTwinController extends Controller
 
         return ['subjects' => $subjects, 'bodies' => $bodies];
     }
+
+    public function selectUsers()
+    {
+        $users = [];
+
+        $prompt = session('digital_twin_draft')['prompt'];
+
+        $users = User::where('role', 'User')->get();
+
+
+        return view('digital-twin.select-users')->with([
+            'users' => $users,
+            'prompt' => $prompt,
+        ]);
+    }
+
 
     private function generateHTTPPost(LLM $llm, string $prompt, FakeUser $fakeUser)
     {
@@ -134,8 +173,84 @@ class DigitalTwinController extends Controller
         }
     }
 
-    public function create()
+    /**
+    * Generate a digital twin prompt using personal characteristics.
+    *
+    * @param array $user [
+    *     'name' => string,
+    *     'surname' => string,
+    *     'age' => int,
+    *     'role' => string,
+    *     'gender' => string
+    * ]
+    * @param array $additionalHumanFactors [
+    *      string => int
+    * ]
+    * @return string
+    */
+    private function generateDigitalTwinPrompt(string $prompt, array $user, array $additionalHumanFactors): string
+    {   
+        // Replace placeholders with real values
+        $filled = str_replace(
+            ['{{name}}', '{{surname}}', '{{age}}', '{{role}}', '{{gender}}'],
+            [
+                $user['name'] ?? 'N/A',
+                $user['surname'] ?? 'N/A',
+                $user['age'] ?? 'N/A',
+                $user['role'] ?? 'N/A',
+                $user['gender'] ?? 'N/A'
+            ],
+            $prompt
+        );
+
+        $humanFactorsString = '';
+        if (!empty($additionalHumanFactors)) {
+            $lines = array_map(function ($trait, $level) {
+                return "{$trait}: Risk level {$level} out of 5";
+            }, array_keys($additionalHumanFactors), $additionalHumanFactors);
+
+            $humanFactorsString = "\n\nOther vulnerable human factors of this user are:\n" . implode("\n", $lines);
+        }
+    
+        return $filled . $humanFactorsString;
+    }
+
+    public function create(Request $request)
     {
+        $evaluator = auth()->user();
+
+        $validated = $request->validate([
+            'selected_users' => 'required|array',
+            'selected_users.*' => 'integer|exists:users,id',
+        ]);
+
+        $humanFactors = [];
+
+        foreach ($validated['selected_users'] as $userId) {
+            $user = User::findOrFail($userId);
+            $humanFactors = HumanFactorHelper::mergeHumanFactors($humanFactors, $user->human_factors);
+        }
+
+        $prompt = session('digital_twin_draft')['prompt'];
+
+        $digitalTwin = session('digital_twin_draft');
+
+        $prompt = $this->generateDigitalTwinPrompt($prompt, [], $humanFactors);        
+
+        DigitalTwin::create([
+            'name' => $digitalTwin['name'],
+            'surname' => $digitalTwin['surname'],
+            'dob' => $digitalTwin['dateOfBirth'],
+            'gender' => $digitalTwin['gender'],
+            'company_role' => $digitalTwin['companyRole'],
+            'human_factors' => $humanFactors,
+            'prompt' => $prompt,
+            'evaluator_id' => $evaluator->id,
+        ]);
+
+        session()->forget('digital_twin_draft');
+
+        return redirect()->route('digital-twin.index')->with('success', 'Digital Twin created successfully!');
     }
 
 

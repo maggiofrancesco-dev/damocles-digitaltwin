@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('digital_twins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->string('surname');
+            $table->enum('gender',['Male','Female','Other'])->default('Other');
+            $table->date('dob');
+            $table->string('company_role')->nullable();
             $table->longText('prompt');
             $table->json('human_factors')->nullable();
             $table->foreignId('evaluator_id')->constrained('users')->onDelete('cascade');
