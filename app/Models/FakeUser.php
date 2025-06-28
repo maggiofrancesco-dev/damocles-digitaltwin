@@ -39,4 +39,17 @@ class FakeUser extends Model
     {
         return Carbon::parse($this->dob)->age;
     }
+
+    public function toJson($options = 0): string
+{
+    return json_encode([
+        'name' => $this->name,
+        'surname' => $this->surname,
+        'full_name' => $this->fullName(),
+        'gender' => $this->gender,
+        'age' => $this->age(),
+        'role' => $this->company_role,
+        'human_factors' => $this->human_factors,
+    ], $options);
+} 
 }

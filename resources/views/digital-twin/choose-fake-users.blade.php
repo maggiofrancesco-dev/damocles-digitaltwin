@@ -136,8 +136,9 @@
                                                 <x-slot name="content">
                                                     <div class="flex flex-col gap-2">
                                                         <button type="button" class="hover:bg-gray-100 inner-element"
-                                                            data-id="{{ $fakeUser->id }}" x-data=""
-                                                            @click="$dispatch('open-modal', 'evaluate-modal', { id: {{ $fakeUser->id }} })">@lang('digital-twin.evaluate')</button>
+                                                            data-user="{{ $fakeUser->toJson() }}"
+                                                            x-data=""
+                                                            @click="$dispatch('open-modal', 'evaluate-modal')">@lang('digital-twin.evaluate')</button>
                                                         <button type="button"
                                                             class="hover:bg-gray-100 text-red-500 inner-element"
                                                             data-id="{{ $fakeUser->id }}" x-data=""
