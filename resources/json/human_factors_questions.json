@@ -1,430 +1,430 @@
 {
-  "questions": [
-    {
-      "id": 1,
-      "text": "Which age group do you belong to?",
-      "answers": [
+    "questions": [
         {
-          "text": "Under 25",
-          "scores": { "Age": 1 }
+            "id": 1,
+            "text": "Which age group do you belong to?",
+            "answers": [
+                {
+                    "text": "Under 25",
+                    "scores": { "Age": 1 }
+                },
+                {
+                    "text": "25–45",
+                    "scores": { "Age": 3 }
+                },
+                {
+                    "text": "Over 45",
+                    "scores": { "Age": 5 }
+                }
+            ]
         },
         {
-          "text": "25–45",
-          "scores": { "Age": 2 }
+            "id": 2,
+            "text": "What is your gender?",
+            "answers": [
+                {
+                    "text": "Male",
+                    "scores": { "Gender": 1 }
+                },
+                {
+                    "text": "Female",
+                    "scores": { "Gender": 3 }
+                },
+                {
+                    "text": "Other / Prefer not to say",
+                    "scores": { "Gender": 5 }
+                }
+            ]
         },
         {
-          "text": "Over 45",
-          "scores": { "Age": 3 }
+            "id": 3,
+            "text": "How outgoing are you in social or work settings?",
+            "answers": [
+                {
+                    "text": "Not very outgoing",
+                    "scores": {
+                        "Agreeableness": 1,
+                        "Extroversion": 1,
+                        "Social Influence": 1
+                    }
+                },
+                {
+                    "text": "Moderately outgoing",
+                    "scores": {
+                        "Agreeableness": 3,
+                        "Extroversion": 3,
+                        "Social Influence": 3
+                    }
+                },
+                {
+                    "text": "Very outgoing",
+                    "scores": {
+                        "Agreeableness": 5,
+                        "Extroversion": 5,
+                        "Social Influence": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "text": "When facing unexpected problems, how do you react?",
+            "answers": [
+                {
+                    "text": "I get very anxious and stressed",
+                    "scores": {
+                        "Neuroticism": 5,
+                        "Anxiousness": 5,
+                        "Stress": 5,
+                        "Fear": 5
+                    }
+                },
+                {
+                    "text": "I feel a bit uneasy but manage",
+                    "scores": {
+                        "Neuroticism": 3,
+                        "Anxiousness": 3,
+                        "Stress": 3,
+                        "Fear": 3
+                    }
+                },
+                {
+                    "text": "I stay calm and figure it out",
+                    "scores": {
+                        "Neuroticism": 1,
+                        "Calmness": 5,
+                        "Stress": 1,
+                        "Emotional stability": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "text": "How meticulous are you about following procedures?",
+            "answers": [
+                {
+                    "text": "I often skip steps",
+                    "scores": {
+                        "Conscientiousness": 1,
+                        "Impulsivity": 5,
+                        "Attitude toward policies": 1,
+                        "Lack of Resources": 1
+                    }
+                },
+                {
+                    "text": "I follow most procedures",
+                    "scores": {
+                        "Conscientiousness": 3,
+                        "Impulsivity": 3,
+                        "Attitude toward policies": 3,
+                        "Lack of Resources": 3
+                    }
+                },
+                {
+                    "text": "I always follow them exactly",
+                    "scores": {
+                        "Conscientiousness": 5,
+                        "Impulsivity": 1,
+                        "Attitude toward policies": 5,
+                        "Lack of Resources": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "text": "How attentive are you when completing detailed tasks?",
+            "answers": [
+                {
+                    "text": "Easily distracted",
+                    "scores": {
+                        "Vigilance": 1,
+                        "Distraction": 5,
+                        "Misperception": 5,
+                        "Frustration": 5
+                    }
+                },
+                {
+                    "text": "Mostly focused, occasional lapses",
+                    "scores": {
+                        "Vigilance": 3,
+                        "Distraction": 3,
+                        "Misperception": 3,
+                        "Frustration": 3
+                    }
+                },
+                {
+                    "text": "Highly vigilant throughout",
+                    "scores": {
+                        "Vigilance": 5,
+                        "Distraction": 1,
+                        "Misperception": 1,
+                        "Frustration": 1
+                    }
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "text": "How often do you feel mentally fatigued by work?",
+            "answers": [
+                {
+                    "text": "Rarely",
+                    "scores": {
+                        "Cognitive fatigue": 1,
+                        "Physical fatigue": 1,
+                        "Fatigue": 1
+                    }
+                },
+                {
+                    "text": "Sometimes",
+                    "scores": {
+                        "Cognitive fatigue": 3,
+                        "Physical fatigue": 3,
+                        "Fatigue": 3
+                    }
+                },
+                {
+                    "text": "Often",
+                    "scores": {
+                        "Cognitive fatigue": 5,
+                        "Physical fatigue": 5,
+                        "Fatigue": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "text": "How would you describe your security awareness?",
+            "answers": [
+                {
+                    "text": "I rarely think about security",
+                    "scores": {
+                        "Lack of Awareness": 5,
+                        "Security posture": 1
+                    }
+                },
+                {
+                    "text": "I think about it sometimes",
+                    "scores": {
+                        "Lack of Awareness": 3,
+                        "Security posture": 3
+                    }
+                },
+                {
+                    "text": "I’m always vigilant",
+                    "scores": {
+                        "Lack of Awareness": 1,
+                        "Security posture": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "text": "How do organizational norms influence your behavior?",
+            "answers": [
+                {
+                    "text": "I ignore most norms",
+                    "scores": {
+                        "Norms": 5,
+                        "Social Proof": 5,
+                        "Type of organization": 1
+                    }
+                },
+                {
+                    "text": "I follow norms when reminded",
+                    "scores": {
+                        "Norms": 3,
+                        "Social Proof": 3,
+                        "Type of organization": 3
+                    }
+                },
+                {
+                    "text": "I proactively uphold norms",
+                    "scores": {
+                        "Norms": 1,
+                        "Social Proof": 1,
+                        "Type of organization": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "text": "Under time pressure, how likely are you to take security shortcuts?",
+            "answers": [
+                {
+                    "text": "Very likely",
+                    "scores": {
+                        "Risk attitude": 5,
+                        "Risk-Taking": 5,
+                        "Complacency": 5
+                    }
+                },
+                {
+                    "text": "Sometimes",
+                    "scores": {
+                        "Risk attitude": 3,
+                        "Risk-Taking": 3,
+                        "Complacency": 3
+                    }
+                },
+                {
+                    "text": "Unlikely",
+                    "scores": {
+                        "Risk attitude": 1,
+                        "Risk-Taking": 1,
+                        "Complacency": 1
+                    }
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "text": "How confident are you in assessing online threats?",
+            "answers": [
+                {
+                    "text": "Not confident",
+                    "scores": {
+                        "Susceptibility": 5,
+                        "Overconfidence": 1
+                    }
+                },
+                {
+                    "text": "Somewhat confident",
+                    "scores": {
+                        "Susceptibility": 3,
+                        "Overconfidence": 3
+                    }
+                },
+                {
+                    "text": "Very confident",
+                    "scores": {
+                        "Susceptibility": 1,
+                        "Overconfidence": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "text": "How often do you seek help or training from your organization?",
+            "answers": [
+                {
+                    "text": "Rarely",
+                    "scores": {
+                        "Support and Organizational Learning": 1,
+                        "Lack of communication": 5,
+                        "Lack of Knowledge": 5
+                    }
+                },
+                {
+                    "text": "Sometimes",
+                    "scores": {
+                        "Support and Organizational Learning": 3,
+                        "Lack of communication": 3,
+                        "Lack of Knowledge": 3
+                    }
+                },
+                {
+                    "text": "Frequently",
+                    "scores": {
+                        "Support and Organizational Learning": 5,
+                        "Lack of communication": 1,
+                        "Lack of Knowledge": 1
+                    }
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "text": "When you make a mistake online, how much does shame affect you?",
+            "answers": [
+                {
+                    "text": "It doesn’t bother me",
+                    "scores": {
+                        "Shame": 1,
+                        "Bias": 1,
+                        "Recurrence": 5
+                    }
+                },
+                {
+                    "text": "I feel a bit embarrassed",
+                    "scores": {
+                        "Shame": 3,
+                        "Bias": 3,
+                        "Recurrence": 3
+                    }
+                },
+                {
+                    "text": "I’m very ashamed",
+                    "scores": {
+                        "Shame": 5,
+                        "Bias": 5,
+                        "Recurrence": 1
+                    }
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "text": "How often do you use the internet in a way that feels compulsive?",
+            "answers": [
+                {
+                    "text": "Rarely",
+                    "scores": {
+                        "Internet addiction": 1,
+                        "Compulsive behaviour": 1,
+                        "Laziness": 1
+                    }
+                },
+                {
+                    "text": "Sometimes",
+                    "scores": {
+                        "Internet addiction": 3,
+                        "Compulsive behaviour": 3,
+                        "Laziness": 3
+                    }
+                },
+                {
+                    "text": "Often",
+                    "scores": {
+                        "Internet addiction": 5,
+                        "Compulsive behaviour": 5,
+                        "Laziness": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "text": "How much do you trust the tools and systems you use daily?",
+            "answers": [
+                {
+                    "text": "I rarely trust them",
+                    "scores": {
+                        "Lack of trust": 5,
+                        "Self-efficacy": 1
+                    }
+                },
+                {
+                    "text": "I’m cautious but use them",
+                    "scores": {
+                        "Lack of trust": 3,
+                        "Self-efficacy": 3
+                    }
+                },
+                {
+                    "text": "I fully trust them",
+                    "scores": {
+                        "Lack of trust": 1,
+                        "Self-efficacy": 5
+                    }
+                }
+            ]
         }
-      ]
-    },
-    {
-      "id": 2,
-      "text": "What is your gender?",
-      "answers": [
-        {
-          "text": "Male",
-          "scores": { "Gender": 1 }
-        },
-        {
-          "text": "Female",
-          "scores": { "Gender": 2 }
-        },
-        {
-          "text": "Other / Prefer not to say",
-          "scores": { "Gender": 3 }
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "text": "How outgoing are you in social or work settings?",
-      "answers": [
-        {
-          "text": "Not very outgoing",
-          "scores": {
-            "Agreeableness": 1,
-            "Extroversion": 1,
-            "Social Influence": 1
-          }
-        },
-        {
-          "text": "Moderately outgoing",
-          "scores": {
-            "Agreeableness": 2,
-            "Extroversion": 2,
-            "Social Influence": 2
-          }
-        },
-        {
-          "text": "Very outgoing",
-          "scores": {
-            "Agreeableness": 3,
-            "Extroversion": 3,
-            "Social Influence": 3
-          }
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "text": "When facing unexpected problems, how do you react?",
-      "answers": [
-        {
-          "text": "I get very anxious and stressed",
-          "scores": {
-            "Neuroticism": 3,
-            "Anxiousness": 3,
-            "Stress": 3,
-            "Fear": 3
-          }
-        },
-        {
-          "text": "I feel a bit uneasy but manage",
-          "scores": {
-            "Neuroticism": 2,
-            "Anxiousness": 2,
-            "Stress": 2,
-            "Fear": 2
-          }
-        },
-        {
-          "text": "I stay calm and figure it out",
-          "scores": {
-            "Neuroticism": 1,
-            "Calmness": 3,
-            "Stress": 1,
-            "Emotional stability": 3
-          }
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "text": "How meticulous are you about following procedures?",
-      "answers": [
-        {
-          "text": "I often skip steps",
-          "scores": {
-            "Conscientiousness": 1,
-            "Impulsivity": 3,
-            "Attitude toward policies": 1,
-            "Lack of Resources": 1
-          }
-        },
-        {
-          "text": "I follow most procedures",
-          "scores": {
-            "Conscientiousness": 2,
-            "Impulsivity": 2,
-            "Attitude toward policies": 2,
-            "Lack of Resources": 2
-          }
-        },
-        {
-          "text": "I always follow them exactly",
-          "scores": {
-            "Conscientiousness": 3,
-            "Impulsivity": 1,
-            "Attitude toward policies": 3,
-            "Lack of Resources": 3
-          }
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "text": "How attentive are you when completing detailed tasks?",
-      "answers": [
-        {
-          "text": "Easily distracted",
-          "scores": {
-            "Vigilance": 1,
-            "Distraction": 3,
-            "Misperception": 3,
-            "Frustration": 3
-          }
-        },
-        {
-          "text": "Mostly focused, occasional lapses",
-          "scores": {
-            "Vigilance": 2,
-            "Distraction": 2,
-            "Misperception": 2,
-            "Frustration": 2
-          }
-        },
-        {
-          "text": "Highly vigilant throughout",
-          "scores": {
-            "Vigilance": 3,
-            "Distraction": 1,
-            "Misperception": 1,
-            "Frustration": 1
-          }
-        }
-      ]
-    },
-    {
-      "id": 7,
-      "text": "How often do you feel mentally fatigued by work?",
-      "answers": [
-        {
-          "text": "Rarely",
-          "scores": {
-            "Cognitive fatigue": 1,
-            "Physical fatigue": 1,
-            "Fatigue": 1
-          }
-        },
-        {
-          "text": "Sometimes",
-          "scores": {
-            "Cognitive fatigue": 2,
-            "Physical fatigue": 2,
-            "Fatigue": 2
-          }
-        },
-        {
-          "text": "Often",
-          "scores": {
-            "Cognitive fatigue": 3,
-            "Physical fatigue": 3,
-            "Fatigue": 3
-          }
-        }
-      ]
-    },
-    {
-      "id": 8,
-      "text": "How would you describe your security awareness?",
-      "answers": [
-        {
-          "text": "I rarely think about security",
-          "scores": {
-            "Lack of Awareness": 3,
-            "Security posture": 1
-          }
-        },
-        {
-          "text": "I think about it sometimes",
-          "scores": {
-            "Lack of Awareness": 2,
-            "Security posture": 2
-          }
-        },
-        {
-          "text": "I’m always vigilant",
-          "scores": {
-            "Lack of Awareness": 1,
-            "Security posture": 3
-          }
-        }
-      ]
-    },
-    {
-      "id": 9,
-      "text": "How do organizational norms influence your behavior?",
-      "answers": [
-        {
-          "text": "I ignore most norms",
-          "scores": {
-            "Norms": 3,
-            "Social Proof": 3,
-            "Type of organization": 1
-          }
-        },
-        {
-          "text": "I follow norms when reminded",
-          "scores": {
-            "Norms": 2,
-            "Social Proof": 2,
-            "Type of organization": 2
-          }
-        },
-        {
-          "text": "I proactively uphold norms",
-          "scores": {
-            "Norms": 1,
-            "Social Proof": 1,
-            "Type of organization": 3
-          }
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "text": "Under time pressure, how likely are you to take security shortcuts?",
-      "answers": [
-        {
-          "text": "Very likely",
-          "scores": {
-            "Risk attitude": 3,
-            "Risk-Taking": 3,
-            "Complacency": 3
-          }
-        },
-        {
-          "text": "Sometimes",
-          "scores": {
-            "Risk attitude": 2,
-            "Risk-Taking": 2,
-            "Complacency": 2
-          }
-        },
-        {
-          "text": "Unlikely",
-          "scores": {
-            "Risk attitude": 1,
-            "Risk-Taking": 1,
-            "Complacency": 1
-          }
-        }
-      ]
-    },
-    {
-      "id": 11,
-      "text": "How confident are you in assessing online threats?",
-      "answers": [
-        {
-          "text": "Not confident",
-          "scores": {
-            "Susceptibility": 3,
-            "Overconfidence": 1
-          }
-        },
-        {
-          "text": "Somewhat confident",
-          "scores": {
-            "Susceptibility": 2,
-            "Overconfidence": 2
-          }
-        },
-        {
-          "text": "Very confident",
-          "scores": {
-            "Susceptibility": 1,
-            "Overconfidence": 3
-          }
-        }
-      ]
-    },
-    {
-      "id": 12,
-      "text": "How often do you seek help or training from your organization?",
-      "answers": [
-        {
-          "text": "Rarely",
-          "scores": {
-            "Support and Organizational Learning": 1,
-            "Lack of communication": 3,
-            "Lack of Knowledge": 3
-          }
-        },
-        {
-          "text": "Sometimes",
-          "scores": {
-            "Support and Organizational Learning": 2,
-            "Lack of communication": 2,
-            "Lack of Knowledge": 2
-          }
-        },
-        {
-          "text": "Frequently",
-          "scores": {
-            "Support and Organizational Learning": 3,
-            "Lack of communication": 1,
-            "Lack of Knowledge": 1
-          }
-        }
-      ]
-    },
-    {
-      "id": 13,
-      "text": "When you make a mistake online, how much does shame affect you?",
-      "answers": [
-        {
-          "text": "It doesn’t bother me",
-          "scores": {
-            "Shame": 1,
-            "Bias": 1,
-            "Recurrence": 3
-          }
-        },
-        {
-          "text": "I feel a bit embarrassed",
-          "scores": {
-            "Shame": 2,
-            "Bias": 2,
-            "Recurrence": 2
-          }
-        },
-        {
-          "text": "I’m very ashamed",
-          "scores": {
-            "Shame": 3,
-            "Bias": 3,
-            "Recurrence": 1
-          }
-        }
-      ]
-    },
-    {
-      "id": 14,
-      "text": "How often do you use the internet in a way that feels compulsive?",
-      "answers": [
-        {
-          "text": "Rarely",
-          "scores": {
-            "Internet addiction": 1,
-            "Compulsive behaviour": 1,
-            "Laziness": 1
-          }
-        },
-        {
-          "text": "Sometimes",
-          "scores": {
-            "Internet addiction": 2,
-            "Compulsive behaviour": 2,
-            "Laziness": 2
-          }
-        },
-        {
-          "text": "Often",
-          "scores": {
-            "Internet addiction": 3,
-            "Compulsive behaviour": 3,
-            "Laziness": 3
-          }
-        }
-      ]
-    },
-    {
-      "id": 15,
-      "text": "How much do you trust the tools and systems you use daily?",
-      "answers": [
-        {
-          "text": "I rarely trust them",
-          "scores": {
-            "Lack of trust": 3,
-            "Self-efficacy": 1
-          }
-        },
-        {
-          "text": "I’m cautious but use them",
-          "scores": {
-            "Lack of trust": 2,
-            "Self-efficacy": 2
-          }
-        },
-        {
-          "text": "I fully trust them",
-          "scores": {
-            "Lack of trust": 1,
-            "Self-efficacy": 3
-          }
-        }
-      ]
-    }
-  ]
+    ]
 }
