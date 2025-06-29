@@ -16,9 +16,9 @@ class LLMsSeeder extends Seeder
 
         DB::table('llms')->insert([
             [
-                'endpoint' => 'http://g4f:1337/v1/chat/completions',
-                'provider' => 'DarkAI',
-                'model' => 'gpt-3.5-turbo',
+                'endpoint' => 'http://g4f:8080/v1/chat/completions',
+                'provider' => 'Free2GPT',
+                'model' => 'gemini-1.5-flash',
                 'created_at' => now(),
                 'updated_at' => now()
             ]
