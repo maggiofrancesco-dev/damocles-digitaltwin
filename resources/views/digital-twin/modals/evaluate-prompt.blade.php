@@ -20,7 +20,7 @@
 
 
             <div class=" flex justify-end gap-2">
-                <x-primary-button type='button' x-on:click="$dispatch('close')">@lang('digital-twin.evaluateClose')</x-primary-button>
+                <x-primary-button type='button' x-on:click="$dispatch('close')">@lang('digital-twin.close')</x-primary-button>
             </div>
             </form>
 

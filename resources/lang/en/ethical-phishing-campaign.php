@@ -21,6 +21,13 @@ return [
     'continue' => 'Continue',
     'next' => 'Next',
     'previous' => 'Previous',
+    'noPhishingCampaigns' => 'No ethical phishing campaigns',
+    'startSucc' => 'Campaign start successfully!',
+    'close' => 'Close',
+    'stopSucc' => 'Campaign stopped successfully!',
+    'duplicateSucc' => 'Campaign duplicated successfully!',
+    'deleteSucc' => 'Campaign deleted successfully!',
+    'tryAgain' => 'Unable to complete the request, please try again later.',
     'newPhishingCampaign' => [
         'back' => 'Back',
         'phishingCampaign' => 'Ethical phishing campaign',
@@ -103,6 +110,10 @@ return [
         'duplicateMessage' => 'Are you sure to duplicate the ethical phishing campaign?',
         'delete' => 'Delete ethical phishing campaign',
         'deleteMessage' => 'Are you sure to delete the ethical phishing campaign?',
+        'start' => 'Start ethical phishing campaign',
+        'startMessage' => 'Are you sure to start the ethical phishing campaign?',
+        'stop' => 'Stop ethical phishing campaign',
+        'stopMessage' => 'Are you sure to stop the ethical phishing campaign?',
     ],
     'partials' => [
         'llm' => [

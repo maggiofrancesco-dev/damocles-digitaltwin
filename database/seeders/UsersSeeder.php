@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\HumanFactor;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -48,26 +49,40 @@ class UsersSeeder extends Seeder
 
         // Random users
         // Uncomment to generate them randomically
-        /*
-        $genders = ['Male', 'Female', 'Other'];
+        // $genders = ['Male', 'Female', 'Other'];
 
-        for ($i = 0; $i < 1000; $i++) {
-            $gender = $genders[array_rand($genders)];
-            $dob = $faker->dateTimeBetween('-80 years', '-18 years')->format('Y-m-d');
-            $users[] = [
-                'name' => $faker->firstName,
-                'surname' => $faker->lastName,
-                'gender' => $gender,
-                'dob' => $dob,
-                'email' => 'user'. $i .'@damocles.com',
-                'password' => Hash::make('secretUser'),
-                'role' => 'User',
-                'company_role' => 'Employee',
-                'created_at' => now(),
-                'updated_at' => now()
-            ];
-        }
-        */
+        // // Fetch all human factors from the DB
+        // $allHumanFactors = HumanFactor::pluck('id')->all();
+
+        // for ($i = 0; $i < 10; $i++) {
+        //     $gender = $genders[array_rand($genders)];
+        //     $dob = $faker->dateTimeBetween('-80 years', '-18 years')->format('Y-m-d');
+
+        //     $userId = DB::table('users')->insertGetId([
+        //         'name' => $faker->firstName,
+        //         'surname' => $faker->lastName,
+        //         'gender' => $gender,
+        //         'dob' => $dob,
+        //         'email' => 'user' . $i . '@damocles.com',
+        //         'password' => Hash::make('secretUser'),
+        //         'role' => 'User',
+        //         'company_role' => 'Employee',
+        //         'created_at' => now(),
+        //         'updated_at' => now()
+        //     ]);
+
+        //     // Assign 2–4 random human factors
+        //     $assignedFactors = collect($allHumanFactors)->random(rand(2, 4));
+        //     foreach ($assignedFactors as $factorId) {
+        //         DB::table('human_factor_user')->insert([
+        //             'user_id' => $userId,
+        //             'human_factor_id' => $factorId,
+        //             'value' => rand(1, 3), // Low (1) to High (3)
+        //             'created_at' => now(),
+        //             'updated_at' => now()
+        //         ]);
+        //     }
+        // }
         
         DB::table('users')->insert($users);
     }

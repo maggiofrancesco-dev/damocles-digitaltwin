@@ -91,22 +91,22 @@
                                         <td class="w-1/3 py-2 px-4">{{ $fakeUser->company_role }}</td>
                                         <td class="w-1/3 py-2 px-4">
                                             <div class="flex gap-1 items-center justify-center">
-                                                @foreach (array_keys(array_slice($fakeUser->human_factors, 0, 1)) as $factor)
-                                                    <x-chip>{{ $factor }}</x-chip>
+                                                @foreach (array_slice($fakeUser->humanFactors->toArray(), 0, 1) as $factor)
+                                                    <x-chip>{{ $factor['factor_name'] }}</x-chip>
                                                 @endforeach
 
-                                                @if (count($fakeUser->human_factors) > 2)
+                                                @if (count($fakeUser->humanFactors) > 2)
                                                     <div x-data="{ open: false }" class="relative">
                                                         <button type="button"
                                                             onclick="event.preventDefault(); event.stopPropagation();"
                                                             @click="open = !open"
-                                                            class="bg-sky-300 text-white text-xs px-2 py-1 rounded-full">+{{ count($fakeUser->human_factors) - 2 }}</button>
+                                                            class="bg-sky-300 text-white text-xs px-2 py-1 rounded-full">+{{ count($fakeUser->humanFactors) - 2 }}</button>
 
                                                         <div x-show="open" @click.outside="open = false"
                                                             class="absolute z-10 mt-1 bg-white border shadow-lg rounded p-2 text-sm">
-                                                            @foreach (array_keys(array_slice($fakeUser->human_factors, 2)) as $factor)
+                                                            @foreach (array_slice($fakeUser->humanFactors->toArray(), 2) as $factor)
                                                                 <x-chip class="my-1 bg-sky-300">
-                                                                    {{ strtoupper($factor) }}</x-chip>
+                                                                    {{ strtoupper($factor['factor_name']) }}</x-chip>
                                                             @endforeach
                                                         </div>
                                                     </div>
@@ -155,29 +155,33 @@
                         </table>
                         <x-input-error :messages="$errors->get('selected_users')" class="mt-2" />
 
-                        <!-- Paginator controls -->
-                        <div id="pagination-controls" class="flex justify-around items-center mt-4">
-                            <div class="flex justify-center w-1/3">
-                                <x-primary-button type='button' id="prevPage">@lang('digital-twin.previous')</x-primary-button>
+                        @if (count($fakeUsers) > 0)
+                            <!-- Paginator controls -->
+                            <div id="pagination-controls" class="flex justify-around items-center mt-4">
+                                <div class="flex justify-center w-1/3">
+                                    <x-primary-button type='button'
+                                        id="prevPage">@lang('digital-twin.previous')</x-primary-button>
+                                </div>
+                                <div class="flex flex-row justify-center items-center w-1/3 gap-4">
+                                    <span id="pageIndicator" class="text-gray-700"></span>
+                                    <span id="totalUsers" class="text-gray-500 text-sm"></span>
+                                    <select id="rowsPerPage" class="border border-gray-300 rounded-md shadow-sm">
+                                        <option value="5" selected>5</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
+                                <div class="flex justify-center w-1/3">
+                                    <x-primary-button type='button'
+                                        id="nextPage">@lang('digital-twin.next')</x-primary-button>
+                                </div>
                             </div>
-                            <div class="flex flex-row justify-center items-center w-1/3 gap-4">
-                                <span id="pageIndicator" class="text-gray-700"></span>
-                                <span id="totalUsers" class="text-gray-500 text-sm"></span>
-                                <select id="rowsPerPage" class="border border-gray-300 rounded-md shadow-sm">
-                                    <option value="5" selected>5</option>
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
-                                    <option value="50">50</option>
-                                </select>
-                            </div>
-                            <div class="flex justify-center w-1/3">
-                                <x-primary-button type='button' id="nextPage">@lang('digital-twin.next')</x-primary-button>
-                            </div>
-                        </div>
+                        @endif
                     </div>
 
                     <div class="flex flex-row justify-around items-center pt-6">
-                        <div class="flex w-1/3">
+                        <div class="flex !w-1/3">
                         </div>
                         <!-- Circles which indicates the steps of the creation -->
                         <div class="flex flex-row w-1/3 justify-center items-center">
@@ -185,7 +189,7 @@
                             <span class="status active"></span>
                             <span class="status"></span>
                         </div>
-                        <a href="{{ route('digital-twin.select-users') }}">
+                        <a class="flex justify-end w-1/3" href="{{ route('digital-twin.select-users') }}">
                             <x-primary-button class="ml-auto" id="continueDigitalTwin"
                                 type="button">@lang('digital-twin.continue')</x-primary-button>
                         </a>

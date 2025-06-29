@@ -18,7 +18,6 @@ return new class extends Migration
             $table->enum('gender',['Male','Female','Other'])->default('Other');
             $table->date('dob');
             $table->string('company_role')->nullable();
-            $table->json('human_factors')->nullable();
             $table->foreignId('evaluator_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

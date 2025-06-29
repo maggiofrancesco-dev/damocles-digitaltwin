@@ -86,7 +86,7 @@ class EthicalPhishingCampaignController extends Controller
     {
         $validated = $request->validate([
             'selected_users' => ['required', 'array', 'min:1'],
-            'selected_users.*' => ['integer', 'exists:users,id'], // assumes you're assigning real users
+            'selected_users.*' => ['integer', 'exists:digital_twins,id'],
         ]);
 
         foreach ($validated['selected_users'] as $digitalTwinId) {
@@ -96,6 +96,8 @@ class EthicalPhishingCampaignController extends Controller
                 'state' => 'waiting',
             ]);
         }
+
+
 
         $campaign = EthicalPhishingCampaign::findOrFail($phishingCampaignId);
         $campaign->state = 'Ready';

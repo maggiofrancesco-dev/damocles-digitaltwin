@@ -116,22 +116,22 @@
                                             <td class="w-1/3 py-2 px-4">{{ $user->company_role }}</td>
                                             <td class="w-1/3 py-2 px-4">
                                                 <div class="flex gap-1 items-center justify-center">
-                                                    @foreach (array_keys(array_slice($user->human_factors, 0, 1)) as $factor)
-                                                        <x-chip>{{ $factor }}</x-chip>
+                                                    @foreach (array_slice($user->humanFactors->toArray(), 0, 1) as $factor)
+                                                        <x-chip>{{ $factor['factor_name'] }}</x-chip>
                                                     @endforeach
 
-                                                    @if (count($user->human_factors) > 2)
+                                                    @if (count($user->humanFactors) > 2)
                                                         <div x-data="{ open: false }" class="relative">
                                                             <button type="button"
                                                                 onclick="event.preventDefault(); event.stopPropagation();"
                                                                 @click="open = !open"
-                                                                class="bg-sky-300 text-white text-xs px-2 py-1 rounded-full">+{{ count($user->human_factors) - 2 }}</button>
+                                                                class="bg-sky-300 text-white text-xs px-2 py-1 rounded-full">+{{ count($user->humanFactors) - 2 }}</button>
 
                                                             <div x-show="open" @click.outside="open = false"
                                                                 class="absolute z-10 mt-1 bg-white border shadow-lg rounded p-2 text-sm">
-                                                                @foreach (array_keys(array_slice($user->human_factors, 2)) as $factor)
+                                                                @foreach (array_slice($user->humanFactors->toArray(), 2) as $factor)
                                                                     <x-chip class="my-1 bg-sky-300">
-                                                                        {{ strtoupper($factor) }}</x-chip>
+                                                                        {{ strtoupper($factor['factor_name']) }}</x-chip>
                                                                 @endforeach
                                                             </div>
                                                         </div>
@@ -176,7 +176,7 @@
                                     <span class="status"></span>
                                     <span class="status active"></span>
                                 </div>
-                                <div class="flex w-1/3 justify-center">
+                                <div class="flex w-1/3 justify-end">
                                     <x-primary-button type="submit">@lang('ethical-phishing-campaign.users.create')</x-primary-button>
                                 </div>
                             </div>

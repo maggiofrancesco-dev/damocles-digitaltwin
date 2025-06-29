@@ -6,11 +6,13 @@ use App\Helpers\HumanFactorHelper;
 use App\Models\DigitalTwin;
 use App\Models\DigitalTwinsPrompt;
 use App\Models\FakeUser;
+use App\Models\HumanFactor;
 use App\Models\LLM;
 use App\Models\User;
 use App\Services\JsonExtractor;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -72,7 +74,7 @@ class DigitalTwinController extends Controller
             'gender' => $validated['gender']
         ];
 
-        $validated['prompt'] = $this->generateDigitalTwinPrompt($validated['prompt'], $user, []);
+        $validated['prompt'] = $this->generateDigitalTwinPrompt($validated['prompt'], $user, collect());
 
         session(['digital_twin_draft' => $validated]); // not flash, so persists beyond next request
 
@@ -91,7 +93,7 @@ class DigitalTwinController extends Controller
         
         $prompt = session('digital_twin_draft')['prompt'];
 
-        $allHumanFactors = ['Agreeableness', 'Extroversion', 'Conscientiousness', 'Neuroticism', 'Vigilance', 'Misperception'];
+        $allHumanFactors = HumanFactor::pluck('factor_name');
 
 
         return view('digital-twin.choose-fake-users')->with([
@@ -117,22 +119,21 @@ class DigitalTwinController extends Controller
     }
 
     /**
-    * Generate a digital twin prompt using personal characteristics.
-    *
-    * @param array $user [
-    *     'name' => string,
-    *     'surname' => string,
-    *     'age' => int,
-    *     'role' => string,
-    *     'gender' => string
-    * ]
-    * @param array $additionalHumanFactors [
-    *      string => int
-    * ]
-    * @return string
-    */
-    private function generateDigitalTwinPrompt(string $prompt, array $user, array $additionalHumanFactors): string
-    {   
+     * Generate a digital twin prompt using personal characteristics.
+     *
+     * @param string $prompt
+     * @param array $user [
+     *     'name' => string,
+     *     'surname' => string,
+     *     'age' => int,
+     *     'role' => string,
+     *     'gender' => string
+     * ]
+     * @param \Illuminate\Support\Collection $additionalHumanFactors Collection of HumanFactor models with pivot->value
+     * @return string
+     */
+    private function generateDigitalTwinPrompt(string $prompt, array $user, Collection $additionalHumanFactors): string
+    {
         // Replace placeholders with real values
         $filled = str_replace(
             ['{{name}}', '{{surname}}', '{{age}}', '{{role}}', '{{gender}}'],
@@ -147,14 +148,14 @@ class DigitalTwinController extends Controller
         );
 
         $humanFactorsString = '';
-        if (!empty($additionalHumanFactors)) {
-            $lines = array_map(function ($trait, $level) {
-                return "{$trait}: Risk level {$level} out of 5";
-            }, array_keys($additionalHumanFactors), $additionalHumanFactors);
+        if ($additionalHumanFactors->isNotEmpty()) {
+            $lines = $additionalHumanFactors->map(function ($factor) {
+                return "{$factor->name}: Risk level {$factor->pivot->value} out of 5";
+            })->toArray();
 
             $humanFactorsString = "\n\nOther vulnerable human factors of this user are:\n" . implode("\n", $lines);
         }
-    
+
         return $filled . $humanFactorsString;
     }
 
@@ -167,29 +168,35 @@ class DigitalTwinController extends Controller
             'selected_users.*' => 'integer|exists:users,id',
         ]);
 
-        $humanFactors = [];
+        $humanFactors = collect([]);
 
         foreach ($validated['selected_users'] as $userId) {
             $user = User::findOrFail($userId);
-            $humanFactors = HumanFactorHelper::mergeHumanFactors($humanFactors, $user->human_factors);
+            $humanFactors = HumanFactorHelper::mergeHumanFactors($humanFactors, $user->humanFactors);
         }
 
         $prompt = session('digital_twin_draft')['prompt'];
 
-        $digitalTwin = session('digital_twin_draft');
+        $digitalTwinDraft = session('digital_twin_draft');
 
         $prompt = $this->generateDigitalTwinPrompt($prompt, [], $humanFactors);        
 
-        DigitalTwin::create([
-            'name' => $digitalTwin['name'],
-            'surname' => $digitalTwin['surname'],
-            'dob' => $digitalTwin['dateOfBirth'],
-            'gender' => $digitalTwin['gender'],
-            'company_role' => $digitalTwin['companyRole'],
-            'human_factors' => $humanFactors,
+        $digitalTwin = DigitalTwin::create([
+            'name' => $digitalTwinDraft['name'],
+            'surname' => $digitalTwinDraft['surname'],
+            'dob' => $digitalTwinDraft['dateOfBirth'],
+            'gender' => $digitalTwinDraft['gender'],
+            'company_role' => $digitalTwinDraft['companyRole'],
             'prompt' => $prompt,
             'evaluator_id' => $evaluatorId,
         ]);
+
+        // Attach human factors with pivot value
+        $pivotData = $humanFactors->mapWithKeys(function ($factor) {
+            return [$factor->id => ['value' => $factor->pivot->value]];
+        });
+
+        $digitalTwin->humanFactors()->attach($pivotData);
 
         session()->forget('digital_twin_draft');
 

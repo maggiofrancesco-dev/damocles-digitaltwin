@@ -21,6 +21,7 @@ return [
     'next' => 'Next',
     'previous' => 'Previous',
     'noDigitalTwin' => 'No digital twins available! Create a new one!',
+    'close' => 'Close',
     'fakeUsers' => [
         'create' => 'Create new fake user',
         'confirm' => 'Confirm selection',
@@ -108,7 +109,6 @@ return [
             'placeholderCompanyRole' => 'Enter company role',
         ],
         'evaluatePromptTitle' => 'Evaluate prompt',
-        'evaluateClose' => 'Close',
         'delete' => 'Delete digital twin',
         'deleteMessage' => 'Are you sure to delete the digital twin?',
         'cancel' => 'Cancel',

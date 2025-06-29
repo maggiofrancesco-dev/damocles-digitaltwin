@@ -112,7 +112,7 @@
                         </div>
                     </div>
                     <div class="flex flex-row justify-around items-center pt-6">
-                        <div class="flex w-1/3">
+                        <div class="flex !w-1/3">
                         </div>
                         <!-- Circles which indicates the steps of the creation -->
                         <div class="flex flex-row w-1/3 justify-center items-center">

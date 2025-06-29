@@ -1,32 +1,51 @@
 <?php
 
-/**
- * Author: Francesco Maggio
- */
-
 namespace App\Helpers;
+
+use App\Models\HumanFactor;
+use Illuminate\Support\Collection;
 
 class HumanFactorHelper
 {
-    public static function mergeHumanFactors(array ...$factors): array
+    /**
+     * Merge multiple human‐factor sets by averaging their values.
+     *
+     * @param  Collection<int, HumanFactor> ...$factors
+     * @return Collection<HumanFactor>
+     */
+    public static function mergeHumanFactors(Collection ...$factors): Collection
     {
-        $totals = [];
-        $counts = [];
+        $totals = collect();
+        $counts = collect();
 
+        // Accumulate totals and counts per factor_name
         foreach ($factors as $factorSet) {
-            foreach ($factorSet as $key => $value) {
-                if (!is_numeric($value)) continue;
+            foreach ($factorSet as $model) {
+                if (!isset($model->factor_name) || !isset($model->pivot->value)) {
+                    continue;
+                }
 
-                $totals[$key] = ($totals[$key] ?? 0) + $value;
-                $counts[$key] = ($counts[$key] ?? 0) + 1;
+                $key = $model->factor_name;
+                $value = $model->pivot->value;
+
+                if (!is_numeric($value)) {
+                    continue;
+                }
+
+                $totals[$key] = $totals->get($key, 0) + $value;
+                $counts[$key] = $counts->get($key, 0) + 1;
             }
         }
 
-        $averaged = [];
-        foreach ($totals as $key => $sum) {
-            $averaged[$key] = round($sum / $counts[$key], 2);
-        }
+        // Get distinct models and attach pivot values
+        $models = HumanFactor::whereIn('factor_name', $totals->keys())->get();
 
-        return $averaged;
+        $models->each(function ($model) use ($totals, $counts) {
+            $name = $model->factor_name;
+            $avg = round($totals[$name] / $counts[$name], 2);
+            $model->pivot = (object)['value' => $avg];
+        });
+
+        return $models;
     }
 }

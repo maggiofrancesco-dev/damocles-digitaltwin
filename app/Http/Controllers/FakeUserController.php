@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FakeUser;
+use App\Models\HumanFactor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -35,23 +36,31 @@ class FakeUserController extends Controller
         // Transform human factors into clean array
         $humanFactors = [];
         if (!empty($validated['human_factors'])) {
-            foreach ($validated['human_factors'] as $factor => $data) {
+            foreach ($validated['human_factors'] as $factorName => $data) {
                 if (!empty($data['enabled'])) {
-                    $humanFactors[$factor] = (int) ($data['value'] ?? 3);
+                    $value = (int) ($data['value'] ?? 3);
+                    $factor = HumanFactor::where('factor_name', $factorName)->first();
+                    if ($factor) {
+                        $humanFactors[$factor->id] = ['value' => $value];
+                    }
                 }
             }
         }
 
-
-        FakeUser::create([
+        // Create the FakeUser without the old 'human_factors' array
+        $fakeUser = FakeUser::create([
             'name' => $validated['name'],
             'surname' => $validated['surname'],
             'gender' => $validated['gender'],
             'dob' => $validated['dob'],
             'company_role' => $validated['company_role'],
-            'human_factors' => $humanFactors,
             'evaluator_id' => auth()->id(),
         ]);
+
+        // Attach human factors to the pivot table
+        if (!empty($humanFactors)) {
+            $fakeUser->humanFactors()->attach($humanFactors);
+        }
 
         return redirect()->back()->with('success', __('Digital twin created successfully.'));
     }

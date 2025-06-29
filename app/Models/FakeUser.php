@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 /**
  * Author: Gioele Giannico, Francesco Baldi
  */
@@ -17,13 +19,11 @@ class FakeUser extends User
         'gender',
         'dob',
         'company_role',
-        'human_factors',
         'evaluator_id',
     ];
 
     protected $casts = [
         'dob' => 'date',
-        'human_factors' => 'array',
     ];
 
     public function evaluator()
@@ -31,8 +31,20 @@ class FakeUser extends User
         return $this->belongsTo(User::class, 'evaluator_id');
     }
 
+    // Added Human Factor relationship
+    public function humanFactors(): BelongsToMany
+    {
+        return $this->belongsToMany(HumanFactor::class)
+                    ->withPivot('value')
+                    ->withTimestamps();
+    }
+
     public function toJson($options = 0): string
     {
+        $humanFactorMap = $this->humanFactors->mapWithKeys(function ($factor) {
+            return [$factor->factor_name => $factor->pivot->value];
+        })->toArray();
+
         return json_encode([
             'name' => $this->name,
             'surname' => $this->surname,
@@ -40,7 +52,7 @@ class FakeUser extends User
             'gender' => $this->gender,
             'age' => $this->age(),
             'role' => $this->company_role,
-            'human_factors' => $this->human_factors,
+            'human_factors' => $humanFactorMap,
         ], $options);
     } 
 }

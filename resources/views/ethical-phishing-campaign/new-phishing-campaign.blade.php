@@ -94,7 +94,7 @@
 
 
                     <div class="flex flex-row justify-around items-center pt-6">
-                        <div class="flex w-1/3">
+                        <div class="flex !w-1/3">
                         </div>
                         <!-- Circles which indicates the steps of the creation -->
                         <div class="flex flex-row w-1/3 justify-center items-center">
@@ -102,7 +102,7 @@
                             <span class="status"></span>
                             <span class="status"></span>
                         </div>
-                        <div class="flex w-1/3 justify-center">
+                        <div class="flex w-1/3 justify-end">
                             <x-primary-button id="continue" type="submit">@lang('ethical-phishing-campaign.continue')</x-primary-button>
                         </div>
                     </div>

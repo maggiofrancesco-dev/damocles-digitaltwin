@@ -19,7 +19,6 @@ return new class extends Migration
             $table->date('dob');
             $table->string('company_role')->nullable();
             $table->longText('prompt');
-            $table->json('human_factors')->nullable();
             $table->foreignId('evaluator_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

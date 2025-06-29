@@ -20,12 +20,10 @@ class DigitalTwin extends User
         'company_role',
         'prompt',
         'evaluator_id',
-        'human_factors'
     ];
 
     protected $casts = [
         'dob' => 'date',
-        'human_factors' => 'array',
     ];
 
     public function ethicalPhishingCampaigns(): BelongsToMany
@@ -33,6 +31,14 @@ class DigitalTwin extends User
         return $this->belongsToMany(EthicalPhishingCampaign::class, 'ethical_phishing_campaigns_digital_twins')
                     ->using(EthicalPhishingCampaignsDigitalTwin::class)
                     ->withPivot(['state', 'response']) // optional
+                    ->withTimestamps();
+    }
+
+    // Added Human Factor relationship
+    public function humanFactors(): BelongsToMany
+    {
+        return $this->belongsToMany(HumanFactor::class)
+                    ->withPivot('value')
                     ->withTimestamps();
     }
 }
