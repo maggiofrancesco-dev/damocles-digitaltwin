@@ -42,6 +42,8 @@ class RegisteredUserController extends Controller
             'company_role' => ['required', 'string', 'max:255'],
         ]);
 
+        //session(['registration' => $request->only('name', 'surname', 'gender', 'dob', 'email', 'password', 'role', 'company_role')]);
+
         $dateOfBirth = Carbon::createFromFormat('d/m/Y', $request->dob)->format('Y-m-d');
 
         $user = User::create([
@@ -59,12 +61,8 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        // Check if the user is a User 
-        if ($user->role === 'User') {
-            return redirect()->intended(route('questionnaires-campaign.index', absolute: false));
-        } else {
-            return redirect()->intended(route('dashboard', absolute: false));
-        }
+        // Redirect to Human Factor questionnaire
+        return redirect()->intended(route('hf.questionnaire', absolute: true));
 
     }
 }

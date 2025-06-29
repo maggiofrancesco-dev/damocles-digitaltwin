@@ -10,13 +10,18 @@ use App\Http\Controllers\PhishingCampaignController;
 use App\Http\Controllers\PhishingContextController;
 use App\Http\Controllers\PhishingPersuasionController;
 use App\Http\Controllers\PhishingEmotionalTriggerController;
+use App\Http\Controllers\HumanFactorQuestionnaireController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'hf_questionnaire_completed', 'verified'])->group(function () {
+
+    // Human Factor Questionnaire routes
+    Route::get('human-factor-questionnaire', [HumanFactorQuestionnaireController::class, 'create'])->name('hf.questionnaire');
+    Route::post('human-factor-questionnaire', [HumanFactorQuestionnaireController::class, 'store'])->name('hf.questionnaire.store');
 
     Route::middleware(['role:Admin'])->group(function () {
         Route::get('/llms', [LLMController::class, 'index'])->name('llms.index');

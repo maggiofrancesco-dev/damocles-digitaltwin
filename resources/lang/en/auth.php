@@ -46,5 +46,6 @@ return [
         'confirmPassword' => 'Confirm Password',
         'alreadyRegistered' => 'Already registered?',
         'register' => 'Register',
+        'continue' => 'Continue', // Add continue entry in lang file
     ],
 ];

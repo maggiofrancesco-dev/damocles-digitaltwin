@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PhishingEmotionalTriggersSeeder::class);
         $this->call(LLMsSeeder::class);
         $this->call(QuestionnairesSeeder::class);
+        $this->call(HumanFactorSeeder::class);
     }
 }

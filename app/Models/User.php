@@ -72,4 +72,12 @@ class User extends Authenticatable
         return $this->name . ' ' . $this->surname;
     }
 
+    // Added Human Factor relationship
+    public function humanFactors()
+    {
+        return $this->belongsToMany(HumanFactor::class)
+                    ->withPivot('value')
+                    ->withTimestamps();
+    }
+
 }
