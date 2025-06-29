@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckUserRoleMiddleware::class,
+            'hf_questionnaire_completed' => \App\Http\Middleware\CheckHumanFactorQuestionnaireCompleted::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

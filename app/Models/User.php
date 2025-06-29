@@ -81,4 +81,12 @@ class User extends Authenticatable
         'Impulsivity' => 4
     ];
 
+    // Added Human Factor relationship
+    public function humanFactors()
+    {
+        return $this->belongsToMany(HumanFactor::class)
+                    ->withPivot('value')
+                    ->withTimestamps();
+    }
+
 }

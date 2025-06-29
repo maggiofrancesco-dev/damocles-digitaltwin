@@ -96,7 +96,9 @@
             </a>
 
             <x-primary-button class="ms-4">
-                @lang('auth.register.register')
+            <!--Modify button text value to 'continue'-->
+                <!--@lang('auth.register.register')-->
+                @lang('auth.register.continue')
             </x-primary-button>
         </div>
     </form>
