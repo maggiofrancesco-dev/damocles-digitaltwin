@@ -1,5 +1,5 @@
 {{-- 
-    Author: Francesco Maggio
+    Author: Davide Viccari
 --}}
 <x-app-layout>
     <x-slot name="header">
