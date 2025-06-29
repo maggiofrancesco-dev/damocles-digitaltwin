@@ -41,7 +41,7 @@
                     <div class="w-full">
                         <div class="flex flex-col sm:flex-row w-full items-center justify-between mb-4">
                             <div class="mb-4 sm:mb-0">
-                                <p class="font-semibold">@lang('digital-twin.modals.newFakeUser.available')</p>
+                                <p class="font-semibold">@lang('digital-twin.fakeUsers.available')</p>
                             </div>
                             <div class="flex flex-row gap-2 items-center">
                                 @if ($fakeUsers->count() > 0)
@@ -51,7 +51,7 @@
                                             class="block text-sm font-bold text-sky-700">@lang('digital-twin.search')</label>
                                         <input type="text" id="filter" name="filter"
                                             class="h-[34px] p-2 border border-sky-700 focus:border-sky-800 focus:ring-sky-800 rounded-md shadow-sm w-full placeholder:text-sky-700"
-                                            placeholder="@lang('digital-twin.modals.newFakeUser.placeholderFilter')">
+                                            placeholder="@lang('digital-twin.fakeUsers.placeholderFilter')">
                                         <button id="clear-filter"
                                             class="hidden absolute right-2 top-1/2 transform -translate-y-1/2 focus:outline-none">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600"
@@ -62,21 +62,20 @@
                                         </button>
                                     </div>
                                 @endif
-                                <a href="{{ route('digital-twin.new') }}" class="cursor-pointer">
-                                    <x-primary-button type='button'>
-                                        @lang('digital-twin.modals.newFakeUser.create')
-                                    </x-primary-button>
-                                </a>
+                                <x-primary-button x-data=''
+                                    @click="$dispatch('open-modal', 'create-fake-user-modal')" type='button'>
+                                    @lang('digital-twin.fakeUsers.create')
+                                </x-primary-button>
                             </div>
                         </div>
                         <table id="fake-users-table" class="min-w-full text-center border-collapse">
                             <thead class="bg-gray-100">
                                 <tr class="border-b-2 border-gray-300">
-                                    <th class="py-2 px-4">@lang('digital-twin.modals.newFakeUser.fullName')</th>
-                                    <th class="py-2 px-4">@lang('digital-twin.modals.newFakeUser.age')</th>
-                                    <th class="py-2 px-4">@lang('digital-twin.modals.newFakeUser.gender')</th>
-                                    <th class="py-2 px-4">@lang('digital-twin.modals.newFakeUser.companyRole')</th>
-                                    <th class="py-2 px-4">@lang('digital-twin.modals.newFakeUser.humanFactors')</th>
+                                    <th class="py-2 px-4">@lang('digital-twin.fakeUsers.fullName')</th>
+                                    <th class="py-2 px-4">@lang('digital-twin.fakeUsers.age')</th>
+                                    <th class="py-2 px-4">@lang('digital-twin.fakeUsers.gender')</th>
+                                    <th class="py-2 px-4">@lang('digital-twin.fakeUsers.companyRole')</th>
+                                    <th class="py-2 px-4">@lang('digital-twin.fakeUsers.humanFactors')</th>
                                     <th class="py-2 px-4"></th>
                                 </tr>
                             </thead>
@@ -151,6 +150,8 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <x-input-error :messages="$errors->get('selected_users')" class="mt-2" />
+
                         <!-- Paginator controls -->
                         <div id="pagination-controls" class="flex justify-around items-center mt-4">
                             <div class="flex justify-center w-1/3">
@@ -222,103 +223,94 @@
     </div>
 </x-modal>
 
+<x-modal name="create-fake-user-modal" id="create-fake-user-modal" title="{{ __('Create new fake user') }}"
+    :show="false">
+    <div class="p-4 rounded-lg relative">
+        @include('digital-twin.modals.create-fake-user')
+    </div>
+</x-modal>
+
 <script>
-    // Tabulation
     document.addEventListener('DOMContentLoaded', function() {
-        if (document.getElementById('pagination-controls')) {
-            const rowsPerPageSelect = document.getElementById('rowsPerPage');
-            const pageIndicator = document.getElementById('pageIndicator');
-            const totalUsers = document.getElementById('totalUsers');
-
-            let rowsPerPage = parseInt(rowsPerPageSelect.value);
-            let currentPage = 1;
-            const table = document.getElementById('fake-users-table').getElementsByTagName('tbody')[0];
-            const totalRows = table.getElementsByTagName('tr').length;
-            let totalPages = Math.ceil(totalRows / rowsPerPage);
-
-            if (totalRows <= 5) {
-                pageIndicator.style.display = 'none';
-                rowsPerPageSelect.style.display = 'none';
-            }
-
-            function updateTable() {
-                for (let i = 0; i < totalRows; i++) {
-                    table.rows[i].style.display = (i >= (currentPage - 1) * rowsPerPage && i < currentPage *
-                        rowsPerPage) ? '' : 'none';
-                }
-                totalPages = Math.ceil(totalRows / rowsPerPage);
-                pageIndicator.innerText = `${currentPage} / ${totalPages}`;
-                totalUsers.innerText = `Total campaigns: ${totalRows}`;
-                document.getElementById('prevPage').classList.toggle('hidden', currentPage === 1);
-                document.getElementById('nextPage').classList.toggle('hidden', currentPage === totalPages);
-            }
-
-            document.getElementById('prevPage').addEventListener('click', function() {
-                if (currentPage > 1) {
-                    currentPage--;
-                    updateTable();
-                }
-            });
-
-            document.getElementById('nextPage').addEventListener('click', function() {
-                if (currentPage < totalPages) {
-                    currentPage++;
-                    updateTable();
-                }
-            });
-
-            rowsPerPageSelect.addEventListener('change', function() {
-                rowsPerPage = parseInt(this.value);
-                currentPage = 1; // Reset to first page
-                updateTable();
-            });
-
-            // Initialize table display
-            updateTable();
-        }
-    });
-
-
-    // Filter
-    document.addEventListener('DOMContentLoaded', function() {
+        const table = document.getElementById('fake-users-table').getElementsByTagName('tbody')[0];
+        const rows = Array.from(table.getElementsByTagName('tr'));
+        const pageIndicator = document.getElementById('pageIndicator');
+        const totalUsers = document.getElementById('totalUsers');
+        const rowsPerPageSelect = document.getElementById('rowsPerPage');
+        const prevPageBtn = document.getElementById('prevPage');
+        const nextPageBtn = document.getElementById('nextPage');
         const filterInput = document.getElementById("filter");
         const clearFilterButton = document.getElementById("clear-filter");
-        const rows = document.querySelectorAll("#fake-users-table tbody tr");
 
-        if (filterInput && clearFilterButton) {
-            filterInput.addEventListener("input", function() {
-                const filterValue = this.value.toLowerCase().trim();
+        let currentPage = 1;
+        let rowsPerPage = parseInt(rowsPerPageSelect.value);
+        let filteredRows = [...rows]; // initialize with all
 
-                clearFilterButton.style.display = this.value.trim() !== "" ? "block" : "none";
+        function paginate() {
+            const totalRows = filteredRows.length;
+            const totalPages = Math.ceil(totalRows / rowsPerPage);
 
-                rows.forEach(function(row) {
-                    const name = row.cells[1].textContent.toLowerCase();
-                    const age = row.cells[2].textContent.toLowerCase();
-                    const gender = row.cells[3].textContent.toLowerCase();
-                    const role = row.cells[4].textContent.toLowerCase();
-                    const humanFactors = row.cells[5].textContent.toLowerCase();
+            pageIndicator.innerText = `${currentPage} / ${totalPages}`;
+            totalUsers.innerText = `Total users: ${totalRows}`;
 
-                    if (name.includes(filterValue) || age.includes(filterValue) ||
-                        gender.includes(filterValue) || role.includes(filterValue) ||
-                        humanFactors.includes(filterValue)) {
-                        row.style.display = "";
-                    } else {
-                        row.style.display = "none";
-                    }
-                });
-            });
+            prevPageBtn.classList.toggle('hidden', currentPage === 1);
+            nextPageBtn.classList.toggle('hidden', currentPage === totalPages || totalPages === 0);
 
-            clearFilterButton.addEventListener("click", function() {
-                // Clear the search input
-                filterInput.value = "";
+            // Hide all rows first
+            rows.forEach(row => row.style.display = 'none');
 
-                // Hide the clear button
-                clearFilterButton.style.display = "none";
-
-                rows.forEach(function(row) {
-                    row.style.display = "";
-                });
+            // Show only filtered + paginated rows
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            filteredRows.slice(start, end).forEach(row => {
+                row.style.display = '';
             });
         }
+
+        function applyFilter() {
+            const query = filterInput.value.toLowerCase().trim();
+
+            clearFilterButton.style.display = query ? 'block' : 'none';
+
+            filteredRows = rows.filter(row => {
+                return Array.from(row.cells).some(cell =>
+                    cell.textContent.toLowerCase().includes(query)
+                );
+            });
+
+            currentPage = 1; // Reset to first page
+            paginate();
+        }
+
+        filterInput.addEventListener("input", applyFilter);
+        clearFilterButton.addEventListener("click", () => {
+            filterInput.value = '';
+            clearFilterButton.style.display = 'none';
+            applyFilter();
+        });
+
+        prevPageBtn.addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                paginate();
+            }
+        });
+
+        nextPageBtn.addEventListener("click", () => {
+            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                paginate();
+            }
+        });
+
+        rowsPerPageSelect.addEventListener("change", () => {
+            rowsPerPage = parseInt(rowsPerPageSelect.value);
+            currentPage = 1;
+            paginate();
+        });
+
+        // Initial load
+        applyFilter();
     });
 </script>

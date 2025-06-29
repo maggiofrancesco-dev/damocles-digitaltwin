@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EthicalPhishingCampaign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use NunoMaduro\Collision\Adapters\Phpunit\State;
@@ -32,7 +33,17 @@ class DashboardController extends Controller
             $phishingCampaigns = PhishingCampaign::where('evaluator_id', $user->id)->get();
         }
 
+        $ethicalPhishingCampaigns = [];
+
+        if ($user->role === 'Admin') {
+            $ethicalPhishingCampaigns = EthicalPhishingCampaign::all();
+        } elseif ($user->role === 'Evaluator') {
+            $ethicalPhishingCampaigns = EthicalPhishingCampaign::where('evaluator_id', $user->id)->get();
+        }
+
         $totalPhishingCampaigns = $phishingCampaigns->count();
+
+        $totalEthicalPhishingCampaigns = $ethicalPhishingCampaigns->count();
 
         $questionnairesCount = Questionnaire::all()->count();
         $questionnairesCampaigns = [];
@@ -50,6 +61,18 @@ class DashboardController extends Controller
             $phishingCampaignsReady = $phishingCampaigns->where('state', 'Ready')->count();
             $phishingCampaignsOngoing = $phishingCampaigns->where('state', 'Ongoing')->count();
             $phishingCampaignsFinished = $phishingCampaigns->where('state', 'Finished')->count();
+        } else {
+            $phishingCampaignsDraft = 0;
+            $phishingCampaignsReady = 0;
+            $phishingCampaignsOngoing = 0;
+            $phishingCampaignsFinished = 0;
+        }
+
+        if ($ethicalPhishingCampaigns->isNotEmpty()) {
+            $ethicalPhishingCampaignsDraft = $ethicalPhishingCampaigns->where('state', 'Draft')->count();
+            $ethicalPhishingCampaignsReady = $ethicalPhishingCampaigns->where('state', 'Ready')->count();
+            $ethicalPhishingCampaignsOngoing = $ethicalPhishingCampaigns->where('state', 'Ongoing')->count();
+            $ethicalPhishingCampaignsFinished = $ethicalPhishingCampaigns->where('state', 'Finished')->count();
         } else {
             $phishingCampaignsDraft = 0;
             $phishingCampaignsReady = 0;
@@ -79,6 +102,11 @@ class DashboardController extends Controller
             'phishingCampaignsReady',
             'phishingCampaignsOngoing',
             'phishingCampaignsFinished',
+            'totalEthicalPhishingCampaigns',
+            'ethicalPhishingCampaignsDraft',
+            'ethicalPhishingCampaignsReady',
+            'ethicalPhishingCampaignsOngoing',
+            'ethicalPhishingCampaignsFinished',
             'questionnairesCount',
             'totalQuestionnaireCampaigns',
             'questionnairesCampaignsDraft',

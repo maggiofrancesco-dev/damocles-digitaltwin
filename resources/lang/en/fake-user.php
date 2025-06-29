@@ -2,6 +2,9 @@
 
 return [
     'modals'  => [
-        'delete' => 'Delete'
+        'delete' => 'Delete fake user',
+        'deleteMessage' => 'Are you sure to delete the fake user?',
+        'cancel' => 'Cancel',
+        'confirm' => 'Confirm'
     ]
 ];

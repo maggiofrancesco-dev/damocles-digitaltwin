@@ -67,6 +67,10 @@
                                     @lang('dashboard.phishingCampaign')
                                 </x-dropdown-link>
 
+                                <x-dropdown-link :href="route('ethical-phishing-campaign.index')">
+                                    @lang('dashboard.ethicalPhishingCampaign')
+                                </x-dropdown-link>
+
                                 <x-dropdown-link :href="route('questionnaires-campaign.index')">
                                     @lang('dashboard.surveyCampaign')
                                 </x-dropdown-link>
@@ -107,7 +111,7 @@
                         </x-dropdown>
                     </div>
 
-                    <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex">
+                    <div class="hidden md:flex md:items-center md:ms-6">
                         <x-nav-link :href="route('digital-twin.index')" :active="request()->routeIs('digital-twin')">
                             @lang('dashboard.digitalTwins')
                         </x-nav-link>

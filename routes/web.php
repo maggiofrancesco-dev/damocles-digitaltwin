@@ -6,6 +6,7 @@ use App\Http\Controllers\LLMController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DigitalTwinController;
+use App\Http\Controllers\EthicalPhishingCampaignController;
 use App\Http\Controllers\FakeUserController;
 use App\Http\Controllers\QuestionnaireCampaignController;
 use App\Http\Controllers\PhishingCampaignController;
@@ -117,7 +118,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
         // Fake users
+        Route::post('/fake-user/create', [FakeUserController::class, 'create'])->name('fake-user.create');
         Route::delete('/fake-user/delete/{fakeUserId}', [FakeUserController::class, 'destroy'])->name('fake-user.destroy');
+
+        // Ethical phishing campaigns
+        Route::get('/ethical-phishing-campaign', [EthicalPhishingCampaignController::class, 'index'])->name('ethical-phishing-campaign.index');
+
+        Route::get('/ethical-phishing-campaign/new', [EthicalPhishingCampaignController::class, 'new'])->name('ethical-phishing-campaign.new');
+        Route::post('/ethical-phishing-campaign/create', [EthicalPhishingCampaignController::class, 'create'])->name('ethical-phishing-campaign.create');
+        
+        Route::get('/ethical-phishing-campaign/{phishingCampaign}/select-users', [EthicalPhishingCampaignController::class, 'selectUsers'])->name('ethical-phishing-campaign.select-users');
+        Route::post('/ethical-phishing-campaign/{phishingCampaign}/assign-users', [EthicalPhishingCampaignController::class, 'assignUsers'])->name('ethical-phishing-campaign.assign-users');
+
+        Route::post('/ethical-phishing-campaign/change-state/{phishingCampaign}/{state}', [EthicalPhishingCampaignController::class, 'changeState'])->name('ethical-phishing-campaign.change-state');
+        Route::get('/ethical-phishing-campaign/analyse/{phishingCampaign}', [EthicalPhishingCampaignController::class, 'analyse'])->name('ethical-phishing-campaign.analyse');
+        Route::get('/ethical-phishing-campaign/detail/{phishingCampaign}', [EthicalPhishingCampaignController::class, 'details'])->name('ethical-phishing-campaign.details');
+        Route::get('/ethical-phishing-campaign/duplicate/{phishingCampaign}', [EthicalPhishingCampaignController::class, 'duplicate'])->name('ethical-phishing-campaign.duplicate');
+        Route::delete('/ethical-phishing-campaign/delete/{phishingCampaign}', [EthicalPhishingCampaignController::class, 'destroy'])->name('ethical-phishing-campaign.destroy');
 
     });
 

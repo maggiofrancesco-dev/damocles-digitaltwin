@@ -3,7 +3,7 @@
         <div class="flex flex-col text-sky-800 ">
             <!-- Breadcrumb -->
             <ul class="flex flex-row gap-1 flex-wrap break-words">
-                <li><a href="{{ route('digital-twin.index') }}">@lang('digital-twin.digitalTwins')</a></li>
+                <li><a href="{{ route('ethical-phishing-campaign.index') }}">@lang('ethical-phishing-campaign.phishingCampaign')</a></li>
             </ul>
         </div>
     </x-slot>
@@ -15,16 +15,16 @@
 
                     <div
                         class="flex flex-col md:flex-row w-full space-y-2 md:space-y-0 sm:justify-between items-center mb-6">
-                        <p class="font-semibold text-xl">@lang('digital-twin.digitalTwins')</p>
+                        <p class="font-semibold text-xl">@lang('ethical-phishing-campaign.phishingCampaigns')</p>
                         <div>
-                            @if ($digitalTwins->count() > 0)
+                            @if ($phishingCampaigns->count() > 0)
                                 <!-- Filter -->
                                 <div class="flex flex-row w-80 gap-3 justify-end items-center relative">
                                     <label for="filter"
-                                        class="block text-sm font-bold text-sky-700">@lang('digital-twin.search')</label>
+                                        class="block text-sm font-bold text-sky-700">@lang('ethical-phishing-campaign.search')</label>
                                     <input type="text" id="filter" name="filter"
                                         class="p-2 border border-sky-700 focus:border-sky-800 focus:ring-sky-800 rounded-md shadow-sm w-full placeholder:text-sky-700"
-                                        placeholder="@lang('digital-twin.placeholderFilter')">
+                                        placeholder="@lang('ethical-phishing-campaign.placeholderFilter')">
                                     <button id="clear-filter"
                                         class="hidden absolute right-2 top-1/2 transform -translate-y-1/2 focus:outline-none">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600"
@@ -41,73 +41,52 @@
                     <div>
                         <div class="flex flex-col sm:flex-row w-full items-center justify-between mb-4">
                             <div class="mb-4 sm:mb-0">
-                                <p class="font-semibold">@lang('digital-twin.digitalTwinsAvailable')</p>
+                                <p class="font-semibold">@lang('ethical-phishing-campaign.phishingCampaignsAvailable')</p>
                             </div>
                             <div>
-                                <a href="{{ route('digital-twin.new') }}" class="cursor-pointer">
+                                <a href="{{ route('ethical-phishing-campaign.new') }}" class="cursor-pointer">
                                     <x-primary-button>
-                                        @lang('digital-twin.new')
+                                        @lang('ethical-phishing-campaign.new')
                                     </x-primary-button>
                                 </a>
                             </div>
                         </div>
 
                         <!-- Content -->
-                        @if ($digitalTwins->count() > 0)
-                            <table id="digital-twins-table" class="min-w-full text-center border-collapse">
+                        @if (count($phishingCampaigns) > 0)
+                            <table id="ethical-phishing-campaigns-table" class="min-w-full text-center border-collapse">
                                 <thead class="bg-gray-100">
                                     <tr class="border-b-2 border-gray-300">
-                                        <th class="py-2 px-4">@lang('digital-twin.name')</th>
-                                        <th class="py-2 px-4">@lang('digital-twin.prompt')</th>
-                                        <th class="py-2 px-4">@lang('digital-twin.companyRole')</th>
-                                        <th class="py-2 px-4">@lang('digital-twin.age')</th>
-                                        <th class="py-2 px-4">@lang('digital-twin.humanFactors')</th>
+                                        <th class="py-2 px-4">@lang('ethical-phishing-campaign.state')</th>
+                                        <th class="py-2 px-4">@lang('ethical-phishing-campaign.title')</th>
+                                        <th class="py-2 px-4">@lang('ethical-phishing-campaign.description')</th>
+                                        <th class="py-2 px-4">@lang('ethical-phishing-campaign.updatedAt')</th>
                                         <th class="py-2 px-4"></th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white">
-                                    @foreach ($digitalTwins as $digitalTwin)
+                                    @foreach ($phishingCampaigns as $phishingCampaign)
                                         <tr class="hover:bg-gray-100 border-b border-gray-200 cursor-pointer"
-                                            {{-- onclick="handleRowClick(event, '{{ $digitalTwin->state == 'Draft' || $digitalTwin->state == 'Ready' ? route('digital-twin.details', ['phishingCampaign' => $digitalTwin->id]) : route('digital-twin.analyse', ['phishingCampaign' => $digitalTwin->id]) }}')" --}}>
-                                            <td class="w-1/3 py-2 px-4">{{ $digitalTwin->fullName() }}</td>
-                                            <td class="w-1/3 py-2 px-4"><span
-                                                    class="line-clamp-3 w-full">{{ $digitalTwin->prompt }}</span></td>
-                                            <td class="w-1/3 py-2 px-4">
-                                                {{ $digitalTwin->company_role }}</td>
-                                            <td class="w-1/3 py-2 px-4">
-                                                {{ $digitalTwin->age() }}</td>
-                                            <td class="w-1/3 py-2 px-4">
-                                                <div class="flex gap-1 items-center justify-center">
-                                                    @foreach (array_keys(array_slice($digitalTwin->human_factors, 0, 1)) as $factor)
-                                                        <x-chip>{{ $factor }}</x-chip>
-                                                    @endforeach
-
-                                                    @if (count($digitalTwin->human_factors) > 2)
-                                                        <div x-data="{ open: false }" class="relative">
-                                                            <button type="button"
-                                                                onclick="event.preventDefault(); event.stopPropagation();"
-                                                                @click="open = !open"
-                                                                class="bg-sky-300 text-white text-xs px-2 py-1 rounded-full">+{{ count($digitalTwin->human_factors) - 2 }}</button>
-
-                                                            <div x-show="open" @click.outside="open = false"
-                                                                class="absolute z-10 mt-1 bg-white border shadow-lg rounded p-2 text-sm">
-                                                                @foreach (array_keys(array_slice($digitalTwin->human_factors, 2)) as $factor)
-                                                                    <x-chip class="my-1 bg-sky-300">
-                                                                        {{ strtoupper($factor) }}</x-chip>
-                                                                @endforeach
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                </div>
+                                            onclick="handleRowClick(event, '{{ $phishingCampaign->state == 'Draft' || $phishingCampaign->state == 'Ready' ? route('ethical-phishing-campaign.details', ['phishingCampaign' => $phishingCampaign->id]) : route('ethical-phishing-campaign.analyse', ['phishingCampaign' => $phishingCampaign->id]) }}')">
+                                            <td
+                                                class="w-12 py-2 px-4 font-semibold
+                                        @if ($phishingCampaign->state == 'Draft') text-gray-500 
+                                        @elseif ($phishingCampaign->state == 'Ready') text-green-500 
+                                        @elseif ($phishingCampaign->state == 'Ongoing') text-orange-500 
+                                        @elseif ($phishingCampaign->state == 'Finished') text-red-500 @endif">
+                                                {{ $phishingCampaign->state }}
                                             </td>
-
+                                            <td class="w-1/3 py-2 px-4">{{ $phishingCampaign->title }}</td>
+                                            <td class="w-1/2 py-2 px-4">{{ $phishingCampaign->description }}</td>
+                                            <td class="w-1/2 py-2 px-4">
+                                                {{ $phishingCampaign->updated_at->format('d/m/Y') }}</td>
                                             <td class="flex flex-row justify-end py-2 px-4">
                                                 <x-dropdown align="right" width="48">
                                                     <x-slot name="trigger">
                                                         <button
                                                             class="inline-flex items-center font-semibold inner-element">
                                                             <p class="classic">
-                                                                @lang('digital-twin.options')
+                                                                @lang('ethical-phishing-campaign.options')
                                                                 <span>
                                                                     <svg class="fill-current h-4 w-4"
                                                                         xmlns="http://www.w3.org/2000/svg"
@@ -123,21 +102,44 @@
 
                                                     <x-slot name="content">
                                                         <div class="flex flex-col gap-2">
-                                                            <a href="{{ route('digital-twin.details', ['digitalTwin' => $digitalTwin]) }}"
+                                                            @if ($phishingCampaign->state === 'Ready')
+                                                                <button class="hover:bg-gray-100 inner-element"
+                                                                    data-id="{{ $phishingCampaign->id }}"
+                                                                    x-data=""
+                                                                    @click="$dispatch('open-modal', 'start-modal', { id: {{ $phishingCampaign->id }} })">@lang('ethical-phishing-campaign.start')</button>
+                                                            @endif
+
+                                                            @if ($phishingCampaign->state === 'Ongoing')
+                                                                <a href="{{ route('ethical-phishing-campaign.analyse', ['phishingCampaign' => $phishingCampaign->id]) }}"
+                                                                    class="hover:bg-gray-100 inner-element">
+                                                                    <button
+                                                                        class="hover:bg-gray-100">@lang('ethical-phishing-campaign.analyse')</button>
+                                                                </a>
+                                                            @endif
+
+                                                            @if ($phishingCampaign->state === 'Finished')
+                                                                <a href="{{ route('ethical-phishing-campaign.analyse', ['phishingCampaign' => $phishingCampaign->id]) }}"
+                                                                    class="hover:bg-gray-100 inner-element">
+                                                                    <button
+                                                                        class="hover:bg-gray-100">@lang('ethical-phishing-campaign.analyse')</button>
+                                                                </a>
+                                                            @endif
+
+                                                            <a href="{{ $phishingCampaign->state != 'Draft' ? route('ethical-phishing-campaign.details', ['phishingCampaign' => $phishingCampaign->id]) : route('ethical-phishing-campaign.select-users', ['phishingCampaign' => $phishingCampaign->id]) }}"
                                                                 class="hover:bg-gray-100 inner-element">
                                                                 <button class="hover:bg-gray-100">
-                                                                    @lang('digital-twin.details')
+                                                                    {{ $phishingCampaign->state != 'Draft' ? __('ethical-phishing-campaign.details') : __('ethical-phishing-campaign.continue') }}
                                                                 </button>
                                                             </a>
                                                             <button class="hover:bg-gray-100 inner-element"
-                                                                data-id="{{ $digitalTwin->id }}"
+                                                                data-id="{{ $phishingCampaign->id }}"
                                                                 x-data=""
-                                                                @click="$dispatch('open-modal', 'duplicate-modal', { id: {{ $digitalTwin->id }} })">@lang('digital-twin.duplicate')</button>
+                                                                @click="$dispatch('open-modal', 'duplicate-modal', { id: {{ $phishingCampaign->id }} })">@lang('ethical-phishing-campaign.duplicate')</button>
 
                                                             <button class="hover:bg-gray-100 text-red-500 inner-element"
-                                                                data-id="{{ $digitalTwin->id }}"
+                                                                data-id="{{ $phishingCampaign->id }}"
                                                                 x-data=""
-                                                                @click="$dispatch('open-modal', 'delete-modal', { id: {{ $digitalTwin->id }} })">@lang('digital-twin.delete')</button>
+                                                                @click="$dispatch('open-modal', 'delete-modal', { id: {{ $phishingCampaign->id }} })">@lang('ethical-phishing-campaign.delete')</button>
                                                         </div>
                                                     </x-slot>
                                                 </x-dropdown>
@@ -149,7 +151,7 @@
                             <!-- Paginator controls -->
                             <div id="pagination-controls" class="flex justify-around items-center mt-4">
                                 <div class="flex justify-center w-1/3">
-                                    <x-primary-button id="prevPage">@lang('digital-twin.previous')</x-primary-button>
+                                    <x-primary-button id="prevPage">@lang('ethical-phishing-campaign.previous')</x-primary-button>
                                 </div>
                                 <div class="flex flex-row justify-center items-center w-1/3 gap-4">
                                     <span id="pageIndicator" class="text-gray-700"></span>
@@ -161,11 +163,11 @@
                                     </select>
                                 </div>
                                 <div class="flex justify-center w-1/3">
-                                    <x-primary-button id="nextPage">@lang('digital-twin.next')</x-primary-button>
+                                    <x-primary-button id="nextPage">@lang('ethical-phishing-campaign.next')</x-primary-button>
                                 </div>
                             </div>
                         @else
-                            <p class="pt-4 text-center text-lg text-sky-700">@lang('digital-twin.noDigitalTwin')</p>
+                            <p class="pt-4 text-center text-lg text-sky-700">@lang('ethical-phishing-campaign.noPhishingCampaigns')</p>
                         @endif
                     </div>
                 </div>
@@ -181,10 +183,52 @@
 
 </x-app-layout>
 
+<!-- Start modal -->
+<x-modal name="start-modal" id="start-modal" title="Start Phishing Campaign" :show="false">
+    <div class="p-4 rounded-lg relative">
+        @include('ethical-phishing-campaign.modals.start-phishing-campaign')
+    </div>
+</x-modal>
+
+<!-- Start successfully message -->
+<x-modal name="start-successfully-modal" id="start-successfully-modal" title="Start successfully modal"
+    :show="false">
+    <div class="p-6 rounded-lg relative text-center text-sky-800">
+        <p class="text-xl font-semibold pb-8">
+            @lang('ethical-phishing-campaign.startSucc')
+        </p>
+
+        <div class="flex justify-end">
+            <x-secondary-button x-on:click="$dispatch('close')">@lang('ethical-phishing-campaign.close')</x-secondary-button>
+        </div>
+    </div>
+</x-modal>
+
+<!-- Stop modal -->
+<x-modal name="stop-modal" id="stop-modal" title="Stop Phishing Campaign" :show="false">
+    <div class="p-4 rounded-lg relative">
+        @include('ethical-phishing-campaign.modals.stop-phishing-campaign')
+    </div>
+</x-modal>
+
+<!-- Stop successfully message -->
+<x-modal name="stop-successfully-modal" id="stop-successfully-modal" title="Stop successfully modal"
+    :show="false">
+    <div class="p-6 rounded-lg relative text-center text-sky-800">
+        <p class="text-xl font-semibold pb-8">
+            @lang('ethical-phishing-campaign.stopSucc')
+        </p>
+
+        <div class="flex justify-end">
+            <x-secondary-button x-on:click="$dispatch('close')">@lang('ethical-phishing-campaign.close')</x-secondary-button>
+        </div>
+    </div>
+</x-modal>
+
 <!-- Duplicate modal -->
 <x-modal name="duplicate-modal" id="duplicate-modal" title="Duplicate Phishing Campaign" :show="false">
     <div class="p-4 rounded-lg relative">
-        @include('digital-twin.modals.duplicate-digital-twin')
+        @include('ethical-phishing-campaign.modals.duplicate-phishing-campaign')
     </div>
 </x-modal>
 
@@ -193,11 +237,11 @@
     :show="false">
     <div class="p-6 rounded-lg relative text-center text-sky-800">
         <p class="text-xl font-semibold pb-8">
-            @lang('digital-twin.duplicateSucc')
+            @lang('ethical-phishing-campaign.duplicateSucc')
         </p>
 
         <div class="flex justify-end">
-            <x-secondary-button x-on:click="$dispatch('close')">@lang('digital-twin.close')</x-secondary-button>
+            <x-secondary-button x-on:click="$dispatch('close')">@lang('ethical-phishing-campaign.close')</x-secondary-button>
         </div>
     </div>
 </x-modal>
@@ -205,7 +249,7 @@
 <!-- Delete modal -->
 <x-modal name="delete-modal" id="delete-modal" title="Delete Phishing Campaign" :show="false">
     <div class="p-4 rounded-lg relative">
-        @include('digital-twin.modals.delete-digital-twin')
+        @include('ethical-phishing-campaign.modals.delete-phishing-campaign')
     </div>
 </x-modal>
 
@@ -214,11 +258,11 @@
     :show="false">
     <div class="p-6 rounded-lg relative text-center text-sky-800">
         <p class="text-xl font-semibold pb-8">
-            @lang('digital-twin.deleteSucc')
+            @lang('ethical-phishing-campaign.deleteSucc')
         </p>
 
         <div class="flex justify-end">
-            <x-secondary-button x-on:click="$dispatch('close')">@lang('digital-twin.close')</x-secondary-button>
+            <x-secondary-button x-on:click="$dispatch('close')">@lang('ethical-phishing-campaign.close')</x-secondary-button>
         </div>
     </div>
 </x-modal>
@@ -227,11 +271,11 @@
 <x-modal name="error-modal" id="error-modal" title="Error modal" :show="false">
     <div class="p-6 rounded-lg relative text-center text-red-800">
         <p class="text-xl font-semibold pb-8">
-            @lang('digital-twin.tryAgain')
+            @lang('ethical-phishing-campaign.tryAgain')
         </p>
 
         <div class="flex justify-end">
-            <x-secondary-button x-on:click="$dispatch('close')">@lang('digital-twin.close')</x-secondary-button>
+            <x-secondary-button x-on:click="$dispatch('close')">@lang('ethical-phishing-campaign.close')</x-secondary-button>
         </div>
     </div>
 </x-modal>
@@ -298,7 +342,8 @@
 
             let rowsPerPage = parseInt(rowsPerPageSelect.value);
             let currentPage = 1;
-            const table = document.getElementById('digital-twins-table').getElementsByTagName('tbody')[0];
+            const table = document.getElementById('ethical-phishing-campaigns-table').getElementsByTagName(
+                'tbody')[0];
             const totalRows = table.getElementsByTagName('tr').length;
             let totalPages = Math.ceil(totalRows / rowsPerPage);
 
@@ -348,7 +393,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const filterInput = document.getElementById("filter");
         const clearFilterButton = document.getElementById("clear-filter");
-        const rows = document.querySelectorAll("#digital-twins-table tbody tr");
+        const rows = document.querySelectorAll("#ethical-phishing-campaigns-table tbody tr");
 
         if (filterInput && clearFilterButton) {
             filterInput.addEventListener("input", function() {

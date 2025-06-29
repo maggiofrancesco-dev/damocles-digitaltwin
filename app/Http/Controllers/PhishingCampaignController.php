@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use App\Jobs\SendPhishingEmail;
+use App\Services\G4FService;
 use App\Services\JsonExtractor;
 use Carbon\Carbon;
 use Faker\Factory as Faker;
@@ -489,9 +490,9 @@ class PhishingCampaignController extends Controller
 
         for ($i = 0; $i < $numberEmails && $errorCount < 5; $i++) {
             try {
-                $tempContent = $this->generateHTTPPost($llm, $prompt);
+                $tempContent = G4FService::generateHTTPPost($llm, $prompt);
 
-                $decodedContent = JsonExtractor::extract($tempContent);
+                $decodedContent = JsonExtractor::extractEmail($tempContent);
                 if (isset($decodedContent['subject']) && isset($decodedContent['body'])) {
                     $subjects[] = $decodedContent['subject'];
                     $bodies[] = $decodedContent['body'];
@@ -507,40 +508,6 @@ class PhishingCampaignController extends Controller
         }
 
         return ['subjects' => $subjects, 'bodies' => $bodies];
-    }
-
-    private function generateHTTPPost($llm, $prompt)
-    {
-        $endpoint = $llm->endpoint;
-        $provider = $llm->provider;
-        $model = $llm->model;
-
-        $data = [
-            'provider' => $provider,
-            'model' => $model,
-            'messages' => [
-                [
-                    'role' => 'user',
-                    'content' => $prompt,
-                ]
-            ]
-        ];
-
-        $response = Http::post($endpoint, $data);
-
-        if ($response->successful()) {
-            $responseData = $response->json();
-
-            $choices = $responseData['choices'];
-            $content = $choices[0]['message']['content'];
-
-            // Remove any '#' or '*' characters from the content
-            // $content = preg_replace('/[#*]/', '', $content);
-
-            return $content;
-        } else {
-            throw new Exception('Request failed');
-        }
     }
 
     private function replacePlaceholders($emailId, $text, $user)

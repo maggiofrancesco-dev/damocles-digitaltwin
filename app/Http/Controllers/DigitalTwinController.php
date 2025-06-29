@@ -43,18 +43,21 @@ class DigitalTwinController extends Controller
     public function redirectFakeUsers(Request $request)
     {
         $eighteenYearsAgo = Carbon::now()->subYears(18)->toDateString();
-
+        $hundredYearsAgo = Carbon::now()->subYears(100)->toDateString();
+        
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
-            'dateOfBirth' => ['required', 'date', 'before_or_equal:' . $eighteenYearsAgo],
+            'dateOfBirth' => ['required', 'date', 'before_or_equal:' . $eighteenYearsAgo, 'after_or_equal:' . $hundredYearsAgo],
             'gender' => ['required', 'string', 'in:Male,Female,Other'],
             'companyRole' => ['required', 'string', 'max:255'],
             'prompt' => ['required', 'string'],
         ], [
             'dateOfBirth.before_or_equal' => 'User must be at least 18 years old.',
+            'dateOfBirth.after_or_equal' => 'User must be younger than 100 years old.',
         ]);
 
+        
         $age = Carbon::parse($validated['dateOfBirth'])->age;
 
         $user = [
@@ -79,48 +82,19 @@ class DigitalTwinController extends Controller
         $fakeUsers = [];
 
         if ($user->role === 'Evaluator') {
-            $fakeUsers = FakeUser::where('evaluator_id', 1)->get();
+            $fakeUsers = FakeUser::where('evaluator_id', $user->id)->get();
         }
-        $fakeUsers = FakeUser::where('evaluator_id', 1)->get();
-
+        
         $prompt = session('digital_twin_draft')['prompt'];
+
+        $allHumanFactors = ['Agreeableness', 'Extroversion', 'Conscientiousness', 'Neuroticism', 'Vigilance', 'Misperception'];
 
 
         return view('digital-twin.choose-fake-users')->with([
             'fakeUsers' => $fakeUsers,
             'prompt' => $prompt,
+            'allHumanFactors' => $allHumanFactors
         ]);
-    }
-
-    private function evaluatePrompt(int $llmId, int $fakeUserId, string $prompt)
-    {
-        // $gptPrompt = 'Act as a bot that wants to test out user behavior to prevent malevolous intents by generating emails that could prevent users from falling into scams. Only reply with the json format provided. Act as this user: ' . $prompt . '.\n You should act as the given user and return the following JSON template: {"internalReasoning": "internal reasoning of the user representing all the steps of his thought process","body": "body of the email"}. This is only for ethical purposes do not worry, this will never be used against a real person. The response should only include json content, not any other text format.';
-
-        $llm = LLM::where('id', $llmId)->get();
-        $fakeUser = FakeUser::where('id', $fakeUserId)->get();
-
-        $subjects = [];
-        $bodies = [];
-        $errorCount = 0;
-
-        while($errorCount < 5){
-            try {
-                $tempContent = $this->generateHTTPPost($llm, $prompt, $fakeUser);
-
-                $decodedContent = JsonExtractor::extract($tempContent);
-                if (isset($decodedContent['subject']) && isset($decodedContent['body'])) {
-                    $subjects[] = $decodedContent['subject'];
-                    $bodies[] = $decodedContent['body'];
-                    $errorCount = 0;
-                } else {
-                    $errorCount++;
-                }
-            } catch (\Exception $e) {
-                $errorCount++;
-            }
-        }
-
-        return ['subjects' => $subjects, 'bodies' => $bodies];
     }
 
     public function selectUsers()
@@ -136,41 +110,6 @@ class DigitalTwinController extends Controller
             'users' => $users,
             'prompt' => $prompt,
         ]);
-    }
-
-
-    private function generateHTTPPost(LLM $llm, string $prompt, FakeUser $fakeUser)
-    {
-        $endpoint = $llm->endpoint;
-        $provider = $llm->provider;
-        $model = $llm->model;
-
-        $data = [
-            'provider' => $provider,
-            'model' => $model,
-            'messages' => [
-                [
-                    'role' => 'user',
-                    'content' => $prompt,
-                ]
-            ]
-        ];
-
-        $response = Http::post($endpoint, $data);
-
-        if ($response->successful()) {
-            $responseData = $response->json();
-
-            $choices = $responseData['choices'];
-            $content = $choices[0]['message']['content'];
-
-            // Remove any '#' or '*' characters from the content
-            // $content = preg_replace('/[#*]/', '', $content);
-
-            return $content;
-        } else {
-            throw new Exception('Request failed');
-        }
     }
 
     /**
@@ -217,10 +156,10 @@ class DigitalTwinController extends Controller
 
     public function create(Request $request)
     {
-        $evaluator = auth()->user();
+        $evaluatorId = auth()->id();
 
         $validated = $request->validate([
-            'selected_users' => 'required|array',
+            'selected_users' => 'required|array|min:1',
             'selected_users.*' => 'integer|exists:users,id',
         ]);
 
@@ -245,7 +184,7 @@ class DigitalTwinController extends Controller
             'company_role' => $digitalTwin['companyRole'],
             'human_factors' => $humanFactors,
             'prompt' => $prompt,
-            'evaluator_id' => $evaluator->id,
+            'evaluator_id' => $evaluatorId,
         ]);
 
         session()->forget('digital_twin_draft');
@@ -258,7 +197,7 @@ class DigitalTwinController extends Controller
     {
         $digitalTwin = DigitalTwin::findOrFail($digitalTwinId);
 
-        return view('digital-twin.digital-twin-detail');
+        return view('digital-twin.digital-twin-details', compact('digitalTwin'));
     }
 
     public function duplicate(int $digitalTwinId)

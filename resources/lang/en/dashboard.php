@@ -7,6 +7,7 @@ return [
     'llm' => 'Large Language Models',
     'evaluationCampaign' => 'Evaluation Campaign',
     'phishingCampaign' => 'Phishing campaigns',
+    'ethicalPhishingCampaign' => 'Ethical phishing campaigns',
     'surveyCampaign' => 'Survey campaigns',
     'advanced' => 'Advanced',
     'phishingCampaignOption' => 'Phishing campaign option',
@@ -27,8 +28,10 @@ return [
         'questionnairesCampaign' => 'Questionnaires Campaigns',
         'questionnaires' => 'Questionnaires',
         'digitalTwins' => 'Digital Twins',
+        'ethicalPhishingCampaign' => 'Ethical phishing campaigns',
     ],
     'charts' => [
         'totalCampaigns' => 'Total campaigns',
+        'totalEthicalCampaigns' => 'Total ethical campaigns'
     ]
 ];

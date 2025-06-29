@@ -2,18 +2,18 @@
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row item-center gap-3">
             <!-- Back to phishing campaign -->
-            <a href="{{ route('digital-twin.index') }}" class="cursor-pointer">
+            <a href="{{ route('ethical-phishing-campaign.index') }}" class="cursor-pointer">
                 <x-primary-button>
-                    @lang('digital-twin.users.back')
+                    @lang('ethical-phishing-campaign.users.back')
                 </x-primary-button>
             </a>
             <!-- Breadcrumb -->
             <ul class="flex flex-row gap-1 flex-wrap break-words text-sky-800">
-                <li><a href="{{ route('digital-twin.index') }}">@lang('digital-twin.users.digitalTwin')</a></li>
+                <li><a href="{{ route('ethical-phishing-campaign.index') }}">@lang('ethical-phishing-campaign.users.phishingCampaign')</a></li>
                 <li>/</li>
-                <li><a href="{{ route('digital-twin.new') }}">@lang('digital-twin.users.newDigitalTwin')</a></li>
+                <li><a href="{{ route('ethical-phishing-campaign.new') }}">@lang('ethical-phishing-campaign.users.newPhishingCampaign')</a></li>
                 <li>/</li>
-                <li>@lang('digital-twin.users.selectUsers')</li>
+                <li>@lang('ethical-phishing-campaign.users.selectUsers')</li>
             </ul>
         </div>
     </x-slot>
@@ -24,24 +24,22 @@
                 <div class="p-8 text-sky-900">
 
                     <p class="flex text-lg font-medium text-sky-900 pb-2">
-                        @lang('digital-twin.users.selectUsersToInvite'):
+                        @lang('ethical-phishing-campaign.users.selectUsersToInvite'):
                     </p>
-                    <p class="flex text-xs font-normal text-sky-700 pb-2">
-                        *@lang('digital-twin.users.explaination')
-                    </p>
+
                     @if (!$users->isEmpty())
 
                         <!-- Filters -->
-                        <p class="font-medium">@lang('digital-twin.users.filters'):</p>
+                        <p class="font-medium">@lang('ethical-phishing-campaign.users.filters'):</p>
                         <div class="flex flex-row flex-wrap gap-2 pb-4">
                             <div class="flex flex-row w-80 gap-3 items-center relative">
                                 @if (!$users->isEmpty())
                                     <!-- Filter -->
                                     <label for="userFilter"
-                                        class="block text-sm font-bold text-sky-700">@lang('digital-twin.users.search')</label>
+                                        class="block text-sm font-bold text-sky-700">@lang('ethical-phishing-campaign.users.search')</label>
                                     <input type="text" id="userFilter" name="userFilter"
                                         class="p-2 border border-sky-700 focus:border-sky-800 focus:ring-sky-800 rounded-md shadow-sm w-full placeholder:text-sky-700"
-                                        placeholder="@lang('digital-twin.users.enterSearch')">
+                                        placeholder="@lang('ethical-phishing-campaign.users.enterSearch')">
                                     <button id="clear-user-filter"
                                         class="hidden absolute right-2 top-1/2 transform -translate-y-1/2 focus:outline-none">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600"
@@ -56,47 +54,48 @@
                             <div class="flex flex-wrap gap-2 items-center">
                                 <button
                                     class="all-button py-2 px-4 border border-sky-700 bg-white rounded-md shadow-sm focus:outline-none focus:ring-sky-800 focus:border-sky-800 text-sm"
-                                    id="selectAllButton">@lang('digital-twin.users.all')</button>
+                                    id="selectAllButton">@lang('ethical-phishing-campaign.users.all')</button>
                                 <!-- Gender -->
                                 <button type="button"
                                     class="all-male-button py-2 px-4 border border-sky-700 bg-white rounded-md shadow-sm focus:outline-none focus:ring-sky-800 focus:border-sky-800 text-sm"
-                                    id="selectAllMaleButton">@lang('digital-twin.users.allMale')</button>
+                                    id="selectAllMaleButton">@lang('ethical-phishing-campaign.users.allMale')</button>
                                 <button type="button"
                                     class="all-female-button py-2 px-4 border border-sky-700 bg-white rounded-md shadow-sm focus:outline-none focus:ring-sky-800 focus:border-sky-800 text-sm"
-                                    id="selectAllFemaleButton">@lang('digital-twin.users.allFemale')</button>
+                                    id="selectAllFemaleButton">@lang('ethical-phishing-campaign.users.allFemale')</button>
                                 <button type="button"
                                     class="all-other-button py-2 px-4 border border-sky-700 bg-white rounded-md shadow-sm focus:outline-none focus:ring-sky-800 focus:border-sky-800 text-sm"
-                                    id="selectAllOtherButton">@lang('digital-twin.users.allOther')</button>
+                                    id="selectAllOtherButton">@lang('ethical-phishing-campaign.users.allOther')</button>
                             </div>
 
                             <!-- Age -->
                             <div class="flex flex-row items-center gap-2">
                                 <label for="ageFrom"
-                                    class="block text-sm font-bold text-sky-700">@lang('digital-twin.users.ageFrom'):</label>
+                                    class="block text-sm font-bold text-sky-700">@lang('ethical-phishing-campaign.users.ageFrom'):</label>
                                 <input type="number" id="ageFrom" name="ageFrom" min="18" max="80"
                                     class="p-2 border border-sky-700 focus:border-sky-800 focus:ring-sky-800 rounded-md shadow-sm w-16">
                                 <label for="ageTo"
-                                    class="block text-sm font-bold text-sky-700">@lang('digital-twin.users.ageTo')</label>
+                                    class="block text-sm font-bold text-sky-700">@lang('ethical-phishing-campaign.users.ageTo')</label>
                                 <input type="number" id="ageTo" name="ageTo" min="18" max="80"
                                     class="p-2 border border-sky-700 focus:border-sky-800 focus:ring-sky-800 rounded-md shadow-sm w-16">
-                                <x-primary-button id="selectAgeRangeButton">@lang('digital-twin.users.ageSelect')</x-primary-button>
+                                <x-primary-button id="selectAgeRangeButton">@lang('ethical-phishing-campaign.users.ageSelect')</x-primary-button>
                             </div>
                         </div>
 
-                        <form id="saveDigitalTwinForm" action="{{ route('digital-twin.create') }}" method="POST"
-                            class="w-full">
+                        <form id="saveDigitalTwinForm"
+                            action="{{ route('ethical-phishing-campaign.assign-users', ['phishingCampaign' => $phishingCampaignId]) }}"
+                            method="POST" class="w-full">
                             @csrf
                             @method('post')
 
                             <table id="users-table" class="min-w-full text-center border-collapse">
                                 <thead class="bg-gray-100">
                                     <tr class="border-b-2 border-gray-300">
-                                        <th class="py-2 px-4">@lang('digital-twin.users.selected')</th>
-                                        <th class="py-2 px-4">@lang('digital-twin.users.fullName')</th>
-                                        <th class="py-2 px-4">@lang('digital-twin.users.age')</th>
-                                        <th class="py-2 px-4">@lang('digital-twin.users.gender')</th>
-                                        <th class="py-2 px-4">@lang('digital-twin.users.companyRole')</th>
-                                        <th class="py-2 px-4">@lang('digital-twin.users.humanFactors')</th>
+                                        <th class="py-2 px-4">@lang('ethical-phishing-campaign.users.selected')</th>
+                                        <th class="py-2 px-4">@lang('ethical-phishing-campaign.users.fullName')</th>
+                                        <th class="py-2 px-4">@lang('ethical-phishing-campaign.users.age')</th>
+                                        <th class="py-2 px-4">@lang('ethical-phishing-campaign.users.gender')</th>
+                                        <th class="py-2 px-4">@lang('ethical-phishing-campaign.users.companyRole')</th>
+                                        <th class="py-2 px-4">@lang('ethical-phishing-campaign.users.humanFactors')</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white">
@@ -175,12 +174,12 @@
                                     <span class="status active"></span>
                                 </div>
                                 <div class="flex w-1/3 justify-center">
-                                    <x-primary-button type="submit">@lang('digital-twin.users.create')</x-primary-button>
+                                    <x-primary-button type="submit">@lang('ethical-phishing-campaign.users.create')</x-primary-button>
                                 </div>
                             </div>
                         </form>
                     @else
-                        <p class="text-center">@lang('digital-twin.users.noUsers')</p>
+                        <p class="text-center">@lang('ethical-phishing-campaign.users.noUsers')</p>
                     @endif
 
                 </div>
@@ -198,16 +197,16 @@
 <!-- Error user modal -->
 <x-modal name="error-user-modal" id="error-user-modal" title="Error user!" :show="false">
     <div class="p-4 rounded-lg relative text-center">
-        <p class="text-2xl font-semibold text-red-700 pb-8">@lang('digital-twin.users.chooseUser')</p>
-        <x-primary-button x-on:click="$dispatch('close')">@lang('digital-twin.users.close')</x-primary-button>
+        <p class="text-2xl font-semibold text-red-700 pb-8">@lang('ethical-phishing-campaign.users.chooseUser')</p>
+        <x-primary-button x-on:click="$dispatch('close')">@lang('ethical-phishing-campaign.users.close')</x-primary-button>
     </div>
 </x-modal>
 
 <!-- Error age modal -->
 <x-modal name="error-age-modal" id="error-age-modal" title="Error age!" :show="false">
     <div class="p-4 rounded-lg relative text-center">
-        <p class="text-2xl font-semibold text-red-700 pb-8">@lang('digital-twin.users.errorAge')</p>
-        <x-primary-button x-on:click="$dispatch('close')">@lang('digital-twin.users.close')</x-primary-button>
+        <p class="text-2xl font-semibold text-red-700 pb-8">@lang('ethical-phishing-campaign.users.errorAge')</p>
+        <x-primary-button x-on:click="$dispatch('close')">@lang('ethical-phishing-campaign.users.close')</x-primary-button>
     </div>
 </x-modal>
 
@@ -413,26 +412,41 @@
     });
 
     // Filter
-    function setupTableFilter(userFilterInput, clearFilterButton, rows) {
-        userFilterInput.addEventListener("input", function() {
-            const userFilterValue = this.value.toLowerCase().trim();
+    document.addEventListener('DOMContentLoaded', function() {
+        const userFilterInput = document.getElementById("userFilter");
+        const clearFilterButton = document.getElementById("clear-user-filter");
+        const rows = document.querySelectorAll("#users-table tbody tr");
 
-            clearFilterButton.style.display = this.value.trim() !== "" ? "block" : "none";
+        if (userFilterInput && clearFilterButton) {
+            userFilterInput.addEventListener("input", function() {
+                const filterValue = this.value.toLowerCase().trim();
 
-            rows.forEach(function(row) {
-                const rowData = Array.from(row.cells).map(cell => cell.textContent.toLowerCase());
-                const matchesFilter = rowData.some(data => data.includes(userFilterValue));
-                row.style.display = matchesFilter ? "" : "none";
+                clearFilterButton.style.display = filterValue !== "" ? "block" : "none";
+
+                rows.forEach(function(row) {
+                    const fullName = row.cells[1].textContent.toLowerCase();
+                    const age = row.cells[2].textContent.toLowerCase();
+                    const gender = row.cells[3].textContent.toLowerCase();
+                    const role = row.cells[4].textContent.toLowerCase();
+                    const humanFactors = row.cells[5].textContent.toLowerCase();
+
+                    const matches = fullName.includes(filterValue) ||
+                        age.includes(filterValue) ||
+                        gender.includes(filterValue) ||
+                        role.includes(filterValue) ||
+                        humanFactors.includes(filterValue);
+
+                    row.style.display = matches ? "" : "none";
+                });
             });
-        });
 
-        clearFilterButton.addEventListener("click", function() {
-            userFilterInput.value = "";
-            clearFilterButton.style.display = "none";
-
-            rows.forEach(function(row) {
-                row.style.display = "";
+            clearFilterButton.addEventListener("click", function() {
+                userFilterInput.value = "";
+                clearFilterButton.style.display = "none";
+                rows.forEach(row => {
+                    row.style.display = "";
+                });
             });
-        });
-    }
+        }
+    });
 </script>

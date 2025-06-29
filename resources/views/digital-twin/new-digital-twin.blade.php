@@ -79,10 +79,10 @@
                     </div>
                     <div>
                         <p class="text-lg font-medium text-sky-900">
-                            *@lang('digital-twin.newDigitalTwin.company_role'):
+                            *@lang('digital-twin.newDigitalTwin.companyRole'):
                         </p>
                         <x-input-label for="companyRole" class="text-md block font-medium text-sky-700 pb-2"
-                            :value="__('digital-twin.newDigitalTwin.value.company_role')" />
+                            :value="__('digital-twin.newDigitalTwin.value.companyRole')" />
                         <input type="text" id="companyRole" name="companyRole"
                             class="border border-sky-700 focus:border-sky-800 focus:ring-sky-800 rounded-md w-full sm:w-2/3"
                             required>

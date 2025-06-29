@@ -1,6 +1,6 @@
 <section>
 
-    <div class="flex flex-wrap justify-center gap-x-24">
+    <div class="flex flex-wrap justify-center gap-x-16">
 
         <div class="flex flex-col justify-center items-center pt-2 pb-6">
             <p class="font-semibold text-lg text-center">@lang('dashboard.evaluator.users')</p>
@@ -16,6 +16,16 @@
                 <p class="font-semibold gap-x-6">
                     <span class="material-symbols-outlined text-5xl align-middle">stacked_email</span>
                     <span>{{ $totalPhishingCampaigns }}</span>
+                </p>
+            </a>
+        </div>
+
+        <div class="flex flex-col justify-center items-center pt-2 pb-6">
+            <p class="font-semibold text-lg text-center">@lang('dashboard.evaluator.ethicalPhishingCampaign')</p>
+            <a href="{{ route('ethical-phishing-campaign.index') }}">
+                <p class="font-semibold gap-x-6">
+                    <span class="material-symbols-outlined text-5xl align-middle">stacked_email</span>
+                    <span>{{ $totalEthicalPhishingCampaigns }}</span>
                 </p>
             </a>
         </div>

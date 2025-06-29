@@ -8,6 +8,13 @@
             </div>
         @endif
 
+        @if ($totalEthicalPhishingCampaigns != 0)
+            <div class="flex flex-col items-center w-80 md:w-1/4">
+                <canvas id="ethicalPhishingCampaigns"></canvas>
+                <p class="text-sm">@lang('dashboard.charts.totalEthicalCampaigns'): {{ $totalEthicalPhishingCampaigns }} </p>
+            </div>
+        @endif
+
         @if ($totalQuestionnaireCampaigns != 0)
             <div class="flex flex-col items-center w-80 md:w-1/4">
                 <canvas id="questionnairesCampaigns"></canvas>
@@ -57,6 +64,51 @@
                         title: {
                             display: true,
                             text: 'Phishing campaigns chart'
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+    if ({{ $totalEthicalPhishingCampaigns }} > 0) {
+        const dataPhishingCampaigns = [{
+                status: 'Draft',
+                count: {!! $ethicalPhishingCampaignsDraft !!}
+            },
+            {
+                status: 'Ready',
+                count: {!! $ethicalPhishingCampaignsReady !!}
+            },
+            {
+                status: 'Ongoing',
+                count: {!! $ethicalPhishingCampaignsOngoing !!}
+            },
+            {
+                status: 'Finished',
+                count: {!! $ethicalPhishingCampaignsFinished !!}
+            },
+
+        ];
+
+        new Chart(
+            document.getElementById('ethicalPhishingCampaigns'), {
+                type: 'doughnut',
+                data: {
+                    labels: dataPhishingCampaigns.map(row => row.status),
+                    datasets: [{
+                        data: dataPhishingCampaigns.map(row => row.count)
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'left',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Ethical phishing campaigns chart'
                         }
                     }
                 }

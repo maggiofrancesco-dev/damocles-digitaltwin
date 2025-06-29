@@ -15,7 +15,11 @@ class FakeUserSeeder extends Seeder
         $faker = Faker::create();
 
         // Ensure at least one user exists as evaluator
-        $evaluator = User::first() ?? User::factory()->create();
+        $evaluator = User::where('role', 'Evaluator')->inRandomOrder()->first();
+
+        if (!$evaluator) {
+            $evaluator = User::factory()->create(['role' => 'Evaluator']);
+        }
 
         $humanFactorsList = [
             'Impulsivity', 'Overconfidence', 'Lack of Awareness', 'Stress', 'Risk attitude',

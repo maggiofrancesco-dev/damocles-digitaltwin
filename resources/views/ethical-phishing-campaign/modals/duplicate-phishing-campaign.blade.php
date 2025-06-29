@@ -1,15 +1,15 @@
 <section class="text-sky-800">
     <!-- Duplicate phishing campaign -->
     <p class="text-xl font-semibold text-center">
-        @lang('digital-twin.modals.duplicate')
+        @lang('ethical-phishing-campaign.modals.duplicate')
     </p>
     <div class="pt-4">
-        <form id="duplicateForm" data-id="" action="{{ route('digital-twin.duplicate', ['digitalTwin' => 'id']) }}"
-            method="GET">
-            <p class="pb-4">@lang('digital-twin.modals.duplicateMessage')</p>
+        <form id="duplicateForm" data-id=""
+            action="{{ route('ethical-phishing-campaign.duplicate', ['phishingCampaign' => 'id']) }}" method="GET">
+            <p class="pb-4">@lang('ethical-phishing-campaign.modals.duplicateMessage')</p>
             <div class="flex justify-end gap-3">
-                <x-secondary-button x-on:click="$dispatch('close')">@lang('digital-twin.modals.cancel')</x-secondary-button>
-                <x-primary-button type="submit">@lang('digital-twin.modals.confirm')</x-primary-button>
+                <x-secondary-button x-on:click="$dispatch('close')">@lang('ethical-phishing-campaign.modals.cancel')</x-secondary-button>
+                <x-primary-button type="submit">@lang('ethical-phishing-campaign.modals.confirm')</x-primary-button>
             </div>
         </form>
     </div>
@@ -24,7 +24,7 @@
                 const id = button.getAttribute('data-id');
                 const duplicateForm = document.getElementById('duplicateForm');
                 const actionUrl =
-                    "{{ route('digital-twin.duplicate', ['digitalTwin' => 'id']) }}";
+                    "{{ route('ethical-phishing-campaign.duplicate', ['phishingCampaign' => 'id']) }}";
 
                 duplicateForm.setAttribute('data-id', id);
                 duplicateForm.action = actionUrl.replace('id', id);

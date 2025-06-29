@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class DigitalTwin extends User
 {
@@ -21,6 +21,15 @@ class DigitalTwin extends User
     ];
 
     protected $casts = [
+        'dob' => 'date',
         'human_factors' => 'array',
     ];
+
+    public function ethicalPhishingCampaigns(): BelongsToMany
+    {
+        return $this->belongsToMany(EthicalPhishingCampaign::class, 'ethical_phishing_campaigns_digital_twins')
+                    ->using(EthicalPhishingCampaignsDigitalTwin::class)
+                    ->withPivot(['state', 'response']) // optional
+                    ->withTimestamps();
+    }
 }
