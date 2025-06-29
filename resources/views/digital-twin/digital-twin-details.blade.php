@@ -1,3 +1,7 @@
+{{-- 
+    Author: Gioele Giannico
+--}}
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row item-center gap-3">

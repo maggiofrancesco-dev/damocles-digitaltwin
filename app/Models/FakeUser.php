@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+/**
+ * Author: Gioele Giannico, Francesco Baldi
+ */
 class FakeUser extends User
 {
     use HasFactory;

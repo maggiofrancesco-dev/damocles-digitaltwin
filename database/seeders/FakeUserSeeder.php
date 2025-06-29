@@ -7,7 +7,9 @@ use App\Models\FakeUser;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Faker\Factory as Faker;
-
+/**
+ * Author: Francesco Baldi
+ */
 class FakeUserSeeder extends Seeder
 {
     public function run(): void

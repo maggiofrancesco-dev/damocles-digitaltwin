@@ -16,6 +16,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+/**
+ * Author: Francesco Maggio
+ */
 
 class AttackDigitalTwins implements ShouldQueue
 {

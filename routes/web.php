@@ -101,7 +101,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/phishing-campaign/emotional-trigger', [PhishingEmotionalTriggerController::class, 'create'])->name('emotional-trigger.create');
         Route::delete('/phishing-campaign/emotional-trigger/{emotionalTrigger}', [PhishingEmotionalTriggerController::class, 'destroy'])->name('emotional-trigger.destroy');
 
-        // Digital twins
+        // Digital twins - Authors: Gioele Giannico, Francesco Baldi
         Route::get('/digital-twin', [DigitalTwinController::class, 'index'])->name('digital-twin.index');
 
         Route::get('/digital-twin/new', [DigitalTwinController::class, 'new'])->name('digital-twin.new');
@@ -117,11 +117,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/digital-twin/select-users', [DigitalTwinController::class, 'selectUsers'])->name('digital-twin.select-users');
 
 
-        // Fake users
+        // Fake users - Authors: Gioele Giannico, Francesco Baldi
         Route::post('/fake-user/create', [FakeUserController::class, 'create'])->name('fake-user.create');
         Route::delete('/fake-user/delete/{fakeUserId}', [FakeUserController::class, 'destroy'])->name('fake-user.destroy');
 
-        // Ethical phishing campaigns
+        // Ethical phishing campaigns - Author: Francesco Maggio
         Route::get('/ethical-phishing-campaign', [EthicalPhishingCampaignController::class, 'index'])->name('ethical-phishing-campaign.index');
 
         Route::get('/ethical-phishing-campaign/new', [EthicalPhishingCampaignController::class, 'new'])->name('ethical-phishing-campaign.new');

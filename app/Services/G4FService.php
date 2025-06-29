@@ -5,7 +5,9 @@ use App\Models\LLM;
 use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-
+/**
+ * Author: Francesco Maggio
+ */
 class G4FService{
     public static function generateHTTPPost(LLM $llm, string $prompt)
     {

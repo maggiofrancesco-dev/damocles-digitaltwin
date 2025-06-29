@@ -2,7 +2,9 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Log;
-
+/**
+ * Author: Francesco Maggio
+ */
 class JsonExtractor
 {
     public static function extractEmail(string $body): array

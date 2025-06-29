@@ -14,6 +14,10 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
+/**
+ * Author: Gioele Giannico, Francesco Baldi
+ */
+
 class DigitalTwinController extends Controller
 {
     public function index()

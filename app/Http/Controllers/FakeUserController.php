@@ -6,6 +6,10 @@ use App\Models\FakeUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+/**
+ * Author: Gioele Giannico, Francesco Baldi
+ */
+
 class FakeUserController extends Controller
 {
     public function create(Request $request)

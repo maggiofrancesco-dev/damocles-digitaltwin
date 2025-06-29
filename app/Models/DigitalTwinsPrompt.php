@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+/**
+ * Author: Francesco Baldi
+ */
 class DigitalTwinsPrompt extends Model
 {
     use HasFactory;

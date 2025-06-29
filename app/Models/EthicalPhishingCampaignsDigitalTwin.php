@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
+/**
+ * Author: Francesco Maggio
+ */
+
 class EthicalPhishingCampaignsDigitalTwin extends Pivot
 {
     use HasFactory;

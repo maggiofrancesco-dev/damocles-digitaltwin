@@ -12,6 +12,10 @@ use App\Models\PhishingCampaign;
 use Exception;
 use Illuminate\Http\Request;
 
+/**
+ * Author: Francesco Maggio
+ */
+
 class EthicalPhishingCampaignController extends Controller
 {
     public function index()

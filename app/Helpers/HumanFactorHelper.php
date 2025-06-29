@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Author: Francesco Maggio
+ */
+
 namespace App\Helpers;
 
 class HumanFactorHelper

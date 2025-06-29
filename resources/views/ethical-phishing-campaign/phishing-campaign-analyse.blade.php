@@ -1,3 +1,6 @@
+{{-- 
+    Author: Francesco Maggio
+--}}
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row items-center gap-3">
