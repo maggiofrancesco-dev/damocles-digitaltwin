@@ -73,14 +73,6 @@ class User extends Authenticatable
         return Carbon::parse($this->dob)->age;
     }
 
-    // Mocks
-
-    public array $human_factors = [
-        'Stress' => 3,
-        'Risk Attitude' => 2,
-        'Impulsivity' => 4
-    ];
-
     // Added Human Factor relationship
     public function humanFactors()
     {
