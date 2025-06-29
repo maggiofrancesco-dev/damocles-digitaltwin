@@ -74,10 +74,10 @@ class DashboardController extends Controller
             $ethicalPhishingCampaignsOngoing = $ethicalPhishingCampaigns->where('state', 'Ongoing')->count();
             $ethicalPhishingCampaignsFinished = $ethicalPhishingCampaigns->where('state', 'Finished')->count();
         } else {
-            $phishingCampaignsDraft = 0;
-            $phishingCampaignsReady = 0;
-            $phishingCampaignsOngoing = 0;
-            $phishingCampaignsFinished = 0;
+            $ethicalPhishingCampaignsDraft = 0;
+            $ethicalPhishingCampaignsReady = 0;
+            $ethicalPhishingCampaignsOngoing = 0;
+            $ethicalPhishingCampaignsFinished = 0;
         }
 
         if ($questionnairesCampaigns->isNotEmpty()) {
