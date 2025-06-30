@@ -11,16 +11,9 @@ while ! nc -z mysql 3306; do
 done
 echo "MySQL is ready"
 
-# Save the current Git commit hash to a file
-echo "Saving Git commit hash..."
-if [ -d .git ]; then
-  git rev-parse --short HEAD > storage/git_version
-  echo "Git commit hash saved to storage/git_version: $(cat storage/git_version)"
-else
-  echo "No .git directory found; skipping Git commit hash."
-fi
-
 # Check if migrations and seeding have already been done
+echo "Checking if migrations and seeding are needed..."
+
 set +e
 php -r "
 require 'vendor/autoload.php';
@@ -52,5 +45,6 @@ php artisan key:generate
 php artisan queue:work &
 php artisan schedule:work &
 
-# Start the Laravel server
-php artisan serve --host=0.0.0.0 --port=8000
+php artisan serve --host=0.0.0.0 --port=8000 &
+
+npm run dev

@@ -14,13 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(HumanFactorSeeder::class);
         $this->call(UsersSeeder::class);
         $this->call(PhishingContextsSeeder::class);
         $this->call(PhishingPersuasionsSeeder::class);
         $this->call(PhishingEmotionalTriggersSeeder::class);
         $this->call(LLMsSeeder::class);
         $this->call(QuestionnairesSeeder::class);
-        $this->call(HumanFactorSeeder::class);
         $this->call(DigitalTwinsPromptSeeder::class);
     }
 }
